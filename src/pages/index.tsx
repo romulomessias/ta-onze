@@ -16,7 +16,7 @@ const Container: FC = ({ children }) => (
   </FelaComponent>
 )
 
-const textRule: StyleFunction<{}, {size?: number}> = ({ size, theme }) => ({
+const textRule: StyleFunction<{}, {size?: number}> = ({ size }) => ({
   fontFamily:
     '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   fontSize: size,
