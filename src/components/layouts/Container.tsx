@@ -12,6 +12,10 @@ const containerRules: StyleFunction<Theme> = () => ({
     paddingRight: 20,
     paddingTop: 20,
     paddingBottom: 20,
+    maxWidth: 1200,
+    marginLeft: "auto",
+    marginRight: "auto",
+    // backgroundColor: "aliceblue",
 });
 
 const Container: FC<ContainerProps> = ({ children, className }) => {

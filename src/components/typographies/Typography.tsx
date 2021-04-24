@@ -2,6 +2,7 @@ import { createElement, FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import classNames from "classnames";
 import { ColorKey, Theme } from "../../styles/Theme";
+
 type variantsType = "headline1" | "body" | "button";
 type weightType = 300 | 500 | 700;
 
@@ -27,21 +28,21 @@ const typographyRules: StyleFunction<Theme, TypographyProps> = ({
 });
 
 const headline1Rules: StyleFunction<{}, TypographyProps> = ({
-    weight = 300,
+    weight = 500,
 }) => ({
     fontSize: 64,
     lineHeight: "96px",
     fontWeight: weight,
 });
 
-const bodyRules: StyleFunction<{}, TypographyProps> = ({ weight = 500 }) => ({
+const bodyRules: StyleFunction<{}, TypographyProps> = ({ weight = 300 }) => ({
     className: "body",
     fontSize: 16,
     lineHeight: "24px",
     fontWeight: weight,
 });
 
-const buttonRules: StyleFunction<{}, TypographyProps> = ({ weight = 500 }) => ({
+const buttonRules: StyleFunction<{}, TypographyProps> = ({ weight = 300 }) => ({
     fontSize: 18,
     lineHeight: "26px",
     fontWeight: weight,

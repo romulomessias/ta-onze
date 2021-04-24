@@ -1,7 +1,9 @@
-import { FC } from "react";
+import { FC, HTMLProps } from "react";
 
-const Layout: FC = ({ children }) => {
-    return <article>{children}</article>;
+type LayoutProps = HTMLProps<HTMLElement>;
+
+const Layout: FC<LayoutProps> = ({ children, ...props }) => {
+    return <article {...props}>{children}</article>;
 };
 
 export default Layout;
