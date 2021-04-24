@@ -1,6 +1,6 @@
 
 import { FC } from 'react'
-import { useFela, FelaComponent, FelaStyle, StyleFunction } from 'react-fela'
+import { useFela, FelaComponent, StyleFunction } from 'react-fela'
 
 const Container: FC = ({ children }) => (
   <FelaComponent
