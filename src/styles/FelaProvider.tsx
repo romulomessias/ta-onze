@@ -1,20 +1,22 @@
 import { IRenderer } from "fela";
 import { FC } from "react";
-import { RendererProvider } from "react-fela";
+import { RendererProvider, ThemeProvider } from "react-fela";
 import getFelaRenderer from "./FelaRenderer";
+import { theme } from "./Theme";
 
 const fallbackRenderer = getFelaRenderer();
 
 export interface FelaProviderProps {
-  renderer: IRenderer;
+    renderer: IRenderer;
 }
 
 const FelaProvider: FC<FelaProviderProps> = ({ renderer, children }) => {
-  const currentRenderer = renderer ?? fallbackRenderer;
-
-  return (
-    <RendererProvider renderer={currentRenderer}>{children}</RendererProvider>
-  );
+    const currentRenderer =  fallbackRenderer;
+    return (
+        <RendererProvider renderer={currentRenderer}>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        </RendererProvider>
+    );
 };
 
 export default FelaProvider;

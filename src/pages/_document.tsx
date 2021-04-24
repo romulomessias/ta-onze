@@ -6,31 +6,30 @@ import Document, {
     NextScript,
 } from "next/document";
 import { renderToNodeList } from "react-fela";
+import { baseStyle, globalStyle } from "../styles/global.styles";
 import getFelaRenderer from "../styles/FelaRenderer";
-import { globalStyle } from "../styles/global.styles";
 
 class AppDocument extends Document {
     static async getInitialProps(ctx: DocumentContext) {
         const renderer = getFelaRenderer();
-        const originalRenderPage = ctx.renderPage;
+        renderer.renderStatic(baseStyle, "html,body,#app");
+        renderer.renderStatic(globalStyle, "*");
 
+        const originalRenderPage = ctx.renderPage;
         ctx.renderPage = () =>
             originalRenderPage({
                 enhanceApp: (App) => (props) => {
-                    //@ts-ignore
-                    return <App {...props} renderer={renderer} />;
+                    const currentProps = { ...props, renderer };
+                    return <App {...currentProps} />;
                 },
             });
+
         const initialProps = await Document.getInitialProps(ctx);
-
-       
-
-        renderer.renderStatic(globalStyle, "html,body,#app");
+        const initialStyles = initialProps.styles as [];
         const styles = renderToNodeList(renderer);
         return {
             ...initialProps,
-            //@ts-ignore
-            styles: [...initialProps.styles, ...styles],
+            styles: [...initialStyles, ...styles],
         };
     }
 

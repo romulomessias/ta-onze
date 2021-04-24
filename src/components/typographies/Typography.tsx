@@ -1,6 +1,7 @@
 import { createElement, FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import classNames from "classnames";
+import { ColorKey, Theme } from "../../styles/Theme";
 type variantsType = "headline1" | "body" | "button";
 type weightType = 300 | 500 | 700;
 
@@ -9,14 +10,20 @@ interface TypographyProps {
     variant?: variantsType;
     weight?: weightType;
     className?: string;
+    color?: ColorKey;
 }
 
-const typographyRules: StyleFunction<{}, TypographyProps> = ({ weight }) => ({
-    className: 'typography',
+const typographyRules: StyleFunction<Theme, TypographyProps> = ({
+    weight,
+    color,
+    theme,
+}) => ({
+    className: "typography",
     fontFamily: "Rubik, sans-serif",
     letterSpacing: 0,
     fontWeight: weight,
     margin: 0,
+    color: color ? theme.pallette[color] : "inherit",
 });
 
 const headline1Rules: StyleFunction<{}, TypographyProps> = ({
@@ -28,7 +35,7 @@ const headline1Rules: StyleFunction<{}, TypographyProps> = ({
 });
 
 const bodyRules: StyleFunction<{}, TypographyProps> = ({ weight = 500 }) => ({
-    className: 'body',
+    className: "body",
     fontSize: 16,
     lineHeight: "24px",
     fontWeight: weight,
@@ -52,13 +59,16 @@ const Typography: FC<TypographyProps> = ({
     className,
     children,
     weight,
+    color,
     ...props
 }) => {
-    const { css } = useFela({ weight });
+    const { css } = useFela<Theme>({ weight, color });
     const variantRule = variantRuleMapper[variant];
-    const rootClass = classNames(css(typographyRules), css(variantRule));
-
-    console.log({ rootClass });
+    const rootClass = classNames(
+        css(typographyRules),
+        css(variantRule),
+        className
+    );
 
     return createElement(as, { className: rootClass, ...props }, children);
 };
