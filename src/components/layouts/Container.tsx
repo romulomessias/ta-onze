@@ -1,18 +1,23 @@
 import { FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
+import classNames from "classnames";
 import { Theme } from "../../styles/Theme";
 
-interface ContainerProps {}
+interface ContainerProps {
+    className?: string;
+}
 
-const containerRules: StyleFunction<Theme> = ({ theme }) => ({
+const containerRules: StyleFunction<Theme> = () => ({
     paddingLeft: 20,
     paddingRight: 20,
-    color: theme.pallette.navy0,
+    paddingTop: 20,
+    paddingBottom: 20,
 });
 
-const Container: FC<ContainerProps> = ({ children }) => {
+const Container: FC<ContainerProps> = ({ children, className }) => {
     const { css } = useFela<Theme>();
-    return <div className={css(containerRules)}>{children}</div>;
+    const rootClass = classNames(css(containerRules), className);
+    return <div className={rootClass}>{children}</div>;
 };
 
 export default Container;
