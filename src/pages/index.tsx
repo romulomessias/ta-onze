@@ -1,45 +1,16 @@
-
-import { FC } from 'react'
-import { useFela, FelaComponent, StyleFunction } from 'react-fela'
-
-const Container: FC = ({ children }) => (
-  <FelaComponent
-    style={{
-      maxWidth: 700,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      lineHeight: 1.5,
-    }}
-    as="div"
-  >
-    {children}
-  </FelaComponent>
-)
-
-const textRule: StyleFunction<{}, {size?: number}> = ({ size }) => ({
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  fontSize: size,
-  color: '#333',
-})
-
-const  Text:FC<{size?: number}> = ({ size = 16, children }) => {
-  const { css } = useFela({ size })
-
-  return <p className={css(textRule)}>{children}</p>
-}
-
-const Title:FC<{size: number}> = ({ children, size = 24 }) => {
-  const { css } = useFela()
-
-  return <h1 className={css({ fontSize: size, color: '#555' })}>{children}</h1>
-}
+import Container from "../components/layouts/Container";
+import Layout from "../components/layouts/Layout";
+import Typography from "../components/typografies/Typography";
 
 export default function Home() {
-  return (
-    <Container>
-      <Title size={50}>My Title</Title>
-      <Text>Hi, I am Fela.</Text>
-    </Container>
-  )
+    return (
+        <Layout>
+            <Container>
+                <Typography as="h1" variant="headline1">
+                    My Title
+                </Typography>
+                <Typography as="p">Hi, I am Fela.</Typography>
+            </Container>
+        </Layout>
+    );
 }
