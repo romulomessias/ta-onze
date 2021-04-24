@@ -1,6 +1,6 @@
 import Container from "../components/layouts/Container";
 import Layout from "../components/layouts/Layout";
-import Typography from "../components/typografies/Typography";
+import Typography from "../components/typographies/Typography";
 
 export default function Home() {
     return (

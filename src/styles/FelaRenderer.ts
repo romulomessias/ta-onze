@@ -1,11 +1,15 @@
 import { createRenderer } from "fela";
-import webPreset from 'fela-preset-web'
+import webPreset from "fela-preset-web";
+import monolithic from "fela-monolithic";
+
+const devMode = process.env.NODE_ENV !== "production";
 
 function getFelaRenderer() {
     return createRenderer({
         plugins: [...webPreset],
-        devMode: process.env.NODE_ENV !== 'production',
-    })
+        enhancers: [monolithic({ prettySelectors: devMode })],
+        devMode,
+    });
 }
 
-export default getFelaRenderer
+export default getFelaRenderer;
