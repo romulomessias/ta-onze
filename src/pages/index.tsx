@@ -1,15 +1,45 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
+import { FC } from 'react'
+import { useFela, FelaComponent, FelaStyle, StyleFunction } from 'react-fela'
+
+const Container: FC = ({ children }) => (
+  <FelaComponent
+    style={{
+      maxWidth: 700,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      lineHeight: 1.5,
+    }}
+    as="div"
+  >
+    {children}
+  </FelaComponent>
 )
 
-export default IndexPage
+const textRule: StyleFunction<{}, {size?: number}> = ({ size, theme }) => ({
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  fontSize: size,
+  color: '#333',
+})
+
+const  Text:FC<{size?: number}> = ({ size = 16, children }) => {
+  const { css } = useFela({ size })
+
+  return <p className={css(textRule)}>{children}</p>
+}
+
+const Title:FC<{size: number}> = ({ children, size = 24 }) => {
+  const { css } = useFela()
+
+  return <h1 className={css({ fontSize: size, color: '#555' })}>{children}</h1>
+}
+
+export default function Home() {
+  return (
+    <Container>
+      <Title size={50}>My Title</Title>
+      <Text>Hi, I am Fela.</Text>
+    </Container>
+  )
+}
