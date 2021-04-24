@@ -42,7 +42,7 @@ const bodyRules: StyleFunction<{}, TypographyProps> = ({ weight = 300 }) => ({
     fontWeight: weight,
 });
 
-const buttonRules: StyleFunction<{}, TypographyProps> = ({ weight = 300 }) => ({
+const buttonRules: StyleFunction<{}, TypographyProps> = ({ weight = 700 }) => ({
     fontSize: 18,
     lineHeight: "26px",
     fontWeight: weight,
