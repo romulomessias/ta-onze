@@ -1,4 +1,4 @@
-import { theme } from './Theme';
+import { theme } from "./Theme";
 import { IStyle } from "fela";
 
 export const baseStyle: IStyle = {
@@ -8,5 +8,5 @@ export const baseStyle: IStyle = {
 };
 
 export const globalStyle: IStyle = {
-    boxSizing: 'border-box'
-}
+    boxSizing: "border-box",
+};

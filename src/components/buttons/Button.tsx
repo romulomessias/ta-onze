@@ -14,7 +14,7 @@ interface IButtonProps {
 
 type ButtonProps = IButtonProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const buttonRules: StyleFunction<Theme, IButtonProps> = ({ theme }) => ({
+const buttonRules: StyleFunction<Theme, IButtonProps> = () => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
@@ -73,7 +73,7 @@ const variantRulesMap: Record<variantKeys, StyleFunction<Theme>> = {
 const Button: FC<ButtonProps> = ({
     children,
     className,
-    variant = "secondary",
+    variant = "primary",
     color = "light",
     ...props
 }) => {

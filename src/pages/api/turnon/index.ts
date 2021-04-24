@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         "user-read-currently-playing",
         "user-read-playback-position",
         "playlist-read-private",
-        "playlist-read-collaborative"
+        "playlist-read-collaborative",
     ];
     const params = [
         "response_type=code",

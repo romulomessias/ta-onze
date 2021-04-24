@@ -11,7 +11,7 @@ export interface FelaProviderProps {
 }
 
 const FelaProvider: FC<FelaProviderProps> = ({ children }) => {
-    const currentRenderer =  fallbackRenderer;
+    const currentRenderer = fallbackRenderer;
     return (
         <RendererProvider renderer={currentRenderer}>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
