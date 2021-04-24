@@ -27,9 +27,9 @@ const pallette: Pallette = {
 
     aqua0: "#E6F9FF",
     aqua10: "#b8e9f4",
-    aqua20: "##67d2df",
-    aqua30: "##4fb9c6",
-    aqua40: "##39a0ae",
+    aqua20: "#67d2df",
+    aqua30: "#4fb9c6",
+    aqua40: "#39a0ae",
 
     neutral0: "#ffffff",
     neutral10: "#e1e9ec",
