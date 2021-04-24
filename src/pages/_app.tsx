@@ -5,7 +5,7 @@ import FelaProvider, { FelaProviderProps } from "../styles/FelaProvider";
 
 export type IAppProps = AppProps & FelaProviderProps;
 
-const App: FC<IAppProps> = ({ Component, pageProps, renderer, ...rest }) => {
+const App: FC<IAppProps> = ({ Component, pageProps, renderer }) => {
     return (
         <>
             <Head>

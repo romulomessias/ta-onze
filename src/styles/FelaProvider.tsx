@@ -10,7 +10,7 @@ export interface FelaProviderProps {
     renderer: IRenderer;
 }
 
-const FelaProvider: FC<FelaProviderProps> = ({ renderer, children }) => {
+const FelaProvider: FC<FelaProviderProps> = ({ children }) => {
     const currentRenderer =  fallbackRenderer;
     return (
         <RendererProvider renderer={currentRenderer}>
