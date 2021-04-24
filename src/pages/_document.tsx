@@ -1,4 +1,3 @@
-import { IStyle } from "fela";
 import Document, {
     DocumentContext,
     Html,
