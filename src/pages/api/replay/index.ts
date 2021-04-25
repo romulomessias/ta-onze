@@ -45,11 +45,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const redis = new Redis(process.env.REDIS_AUTH);
         await redis.ping("hello");
 
-        const refresh = (await redis.get("replay"))!;
-        console.log(refresh);
+        const refresh = (await redis.get("replayOnze"))!;
         const token = await refreshToken(refresh);
 
-        redis.set("play", token.play, "EX", token.time);
+        redis.set("playOnze", token.play, "EX", token.time);
         redis.disconnect();
         res.status(200).send("token refreshed");
     } catch (e) {

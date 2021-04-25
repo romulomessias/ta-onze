@@ -1,8 +1,10 @@
+import { ExternalIDS, Image, ExternalUrls } from "./common";
+
 export interface Track {
     timestamp: number;
     context: null;
     progress_ms: number;
-    item: Item;
+    item: TrackDetail;
     currently_playing_type: string;
     actions: Actions;
     is_playing: boolean;
@@ -17,7 +19,7 @@ export interface Disallows {
     skipping_prev: boolean;
 }
 
-export interface Item {
+export interface TrackDetail {
     album: Album;
     artists: Artist[];
     disc_number: number;
@@ -35,6 +37,9 @@ export interface Item {
     track_number: number;
     type: string;
     uri: string;
+    available_markets?: string[];
+    episode?: boolean;
+    track?: boolean;
 }
 
 export interface Album {
@@ -59,18 +64,4 @@ export interface Artist {
     name: string;
     type: string;
     uri: string;
-}
-
-export interface ExternalUrls {
-    spotify: string;
-}
-
-export interface Image {
-    height: number;
-    url: string;
-    width: number;
-}
-
-export interface ExternalIDS {
-    isrc: string;
 }

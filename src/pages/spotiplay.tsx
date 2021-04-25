@@ -66,14 +66,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
     let hasPermission = false;
 
     try {
-        
         const { data } = await axios.get("/api/canyouhear", {
             baseURL: process.env.PUBLIC_URL,
         });
-        console.log({data});
         hasPermission = data.hasPermission ?? false;
     } catch {
-        console.log("deu ruim")
+        console.log("deu ruim");
     }
 
     return {

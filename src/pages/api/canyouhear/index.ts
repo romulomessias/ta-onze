@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(200).send({ hasPermission: true });
         }
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         res.status(200).send({ hasPermission: false });
     }
 };
