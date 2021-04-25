@@ -24,7 +24,7 @@ export interface Theme {
 
 const pallette: Pallette = {
     navy0: "#E6F7FF",
-    navy10: "#002740",
+    navy10: "#6095b3",
     navy20: "#336B8C",
     navy30: "#124666",
     navy40: "#002740",

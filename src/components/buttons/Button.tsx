@@ -64,10 +64,28 @@ const secondaryRules: StyleFunction<Theme, IButtonProps> = ({
     },
 });
 
+const ghostRules: StyleFunction<Theme, IButtonProps> = ({ theme, color }) => ({
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 8,
+    backgroundColor: "transparent",
+    color: color === "light" ? theme.pallette.navy20 : theme.pallette.aqua20,
+    borderWidth: 2,
+    borderColor: "transparent",
+    borderStyle: "solid",
+    height: 56,
+    ":hover": {
+        backgroundColor:
+            color === "light" ? theme.pallette.aqua0 : theme.pallette.navy30,
+    },
+});
+
 const variantRulesMap: Record<variantKeys, StyleFunction<Theme>> = {
     primary: primaryRules,
     secondary: secondaryRules,
-    ghost: primaryRules,
+    ghost: ghostRules,
 };
 
 const Button: FC<ButtonProps> = ({

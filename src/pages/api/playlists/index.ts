@@ -46,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).send({
             current,
             previous: playlists.items.filter((item) =>
-                item.name.includes("Tá Onze!")
+                item.name.includes("Tá Onze! Vol.")
             ),
         });
     } catch (e) {

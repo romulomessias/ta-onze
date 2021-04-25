@@ -1,12 +1,12 @@
-import { createElement, FC } from "react";
+import { createElement, FC, HTMLAttributes } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import classNames from "classnames";
 import { ColorKey, Theme } from "../../styles/Theme";
 
-type variantsType = "headline1" | "headline4" | "subtitle" | "body" | "button";
+type variantsType = "headline1" | "headline4" | "headline3" | "subtitle" | "body" | "button" | "caption";
 type weightType = 300 | 500 | 700;
 
-interface TypographyProps {
+interface TypographyProps extends HTMLAttributes<HTMLElement>{
     as?: keyof React.ReactHTML;
     variant?: variantsType;
     weight?: weightType;
@@ -32,6 +32,14 @@ const headline1Rules: StyleFunction<{}, TypographyProps> = ({
 }) => ({
     fontSize: 56,
     lineHeight: "70px",
+    fontWeight: weight,
+});
+
+const headline3Rules: StyleFunction<{}, TypographyProps> = ({
+    weight = 500,
+}) => ({
+    fontSize: 40,
+    lineHeight: "50px",
     fontWeight: weight,
 });
 
@@ -64,12 +72,20 @@ const buttonRules: StyleFunction<{}, TypographyProps> = ({ weight = 700 }) => ({
     fontWeight: weight,
 });
 
+const captionRules: StyleFunction<{}, TypographyProps> = ({ weight = 300 }) => ({
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: weight,
+});
+
 const variantRuleMapper: Record<variantsType, StyleFunction<{}>> = {
     headline1: headline1Rules,
+    headline3: headline3Rules,
     headline4: headline4Rules,
     subtitle: subtitleRules,
     body: bodyRules,
     button: buttonRules,
+    caption: captionRules
 };
 
 const Typography: FC<TypographyProps> = ({
@@ -81,7 +97,7 @@ const Typography: FC<TypographyProps> = ({
     color,
     ...props
 }) => {
-    const { css } = useFela<Theme>({ weight, color });
+    const { css } = useFela<Theme, TypographyProps>({ weight, color });
     const variantRule = variantRuleMapper[variant];
     const rootClass = classNames(
         css(typographyRules),
