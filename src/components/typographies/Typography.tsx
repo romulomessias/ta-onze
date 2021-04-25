@@ -3,7 +3,7 @@ import { StyleFunction, useFela } from "react-fela";
 import classNames from "classnames";
 import { ColorKey, Theme } from "../../styles/Theme";
 
-type variantsType = "headline1" | "body" | "button";
+type variantsType = "headline1" | "headline4" | "subtitle" | "body" | "button";
 type weightType = 300 | 500 | 700;
 
 interface TypographyProps {
@@ -30,8 +30,24 @@ const typographyRules: StyleFunction<Theme, TypographyProps> = ({
 const headline1Rules: StyleFunction<{}, TypographyProps> = ({
     weight = 500,
 }) => ({
-    fontSize: 64,
-    lineHeight: "96px",
+    fontSize: 56,
+    lineHeight: "70px",
+    fontWeight: weight,
+});
+
+const headline4Rules: StyleFunction<{}, TypographyProps> = ({
+    weight = 500,
+}) => ({
+    fontSize: 32,
+    lineHeight: "40px",
+    fontWeight: weight,
+});
+
+const subtitleRules: StyleFunction<{}, TypographyProps> = ({
+    weight = 500,
+}) => ({
+    fontSize: 24,
+    lineHeight: "32px",
     fontWeight: weight,
 });
 
@@ -50,6 +66,8 @@ const buttonRules: StyleFunction<{}, TypographyProps> = ({ weight = 700 }) => ({
 
 const variantRuleMapper: Record<variantsType, StyleFunction<{}>> = {
     headline1: headline1Rules,
+    headline4: headline4Rules,
+    subtitle: subtitleRules,
     body: bodyRules,
     button: buttonRules,
 };

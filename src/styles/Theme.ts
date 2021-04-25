@@ -13,9 +13,13 @@ type Pallette = Record<ColorKey, string>;
 type ElevationKey = "level0" | "level1" | "level2" | "level3" | "level4";
 type Elevation = Record<ElevationKey, { boxShadow: string }>;
 
+type BreakpointKeys = "small" | "medium" | "large";
+type Breakpoint = Record<BreakpointKeys, string>;
+
 export interface Theme {
     pallette: Pallette;
     elevation: Elevation;
+    breakpoint: Breakpoint;
 }
 
 const pallette: Pallette = {
@@ -56,7 +60,14 @@ const elevation: Elevation = {
     },
 };
 
+const breakpoint: Breakpoint = {
+    small: '@media (max-width: 480px)',
+    medium: '@media (max-width: 800px)',
+    large: '@media (max-width: 1024px)',
+};
+
 export const theme: Theme = {
     pallette,
     elevation,
+    breakpoint,
 };
