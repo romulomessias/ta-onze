@@ -22,6 +22,7 @@ const heroRules: StyleFunction<Theme> = ({ theme }) => ({
     color: theme.pallette.neutral0,
     [theme.breakpoint.small]: {
         gridAutoFlow: "row",
+        gridTemplateColumns: "auto",
         gap: 16,
     },
     "> .button ": {

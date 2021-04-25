@@ -22,12 +22,24 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
     borderWidth: 2,
     borderStyle: "solid",
     borderColor: theme.pallette.neutral10,
+
+    [theme.breakpoint.small]: {
+        gridAutoFlow: "row",
+        gridTemplateColumns: "auto",
+        gap: 16,
+    },
 });
 
 const coverRules: StyleFunction<Theme> = ({ theme }) => ({
     borderRadius: 8,
     height: 172,
     width: 172,
+
+    [theme.breakpoint.small]: {
+        justifySelf:  "center",
+        width: "100%",
+        objectFit: "cover"
+    },
 
     ...theme.elevation.level2,
 });
