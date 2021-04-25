@@ -70,6 +70,9 @@ export default function Index({ current, previous = [] }: IndexProps) {
     const { css } = useFela<Theme>();
 
     const onButtonClick = () => {
+        if(!current) {
+            alert("Sorry! Não deu pra abrir a playlist :(")
+        }
         const a = document.createElement("a");
         a.href = current.external_urls.spotify;
         a.target = "_black";
@@ -96,10 +99,10 @@ export default function Index({ current, previous = [] }: IndexProps) {
                             <strong>RV</strong>
                         </Typography>
 
-                        <Typography as="p" weight={300}>
+                       {current && <Typography as="p" weight={300}>
                             atualmente com{" "}
                             <strong>{current.tracks.total}</strong> músicas
-                        </Typography>
+                        </Typography>}
                     </section>
 
                     <Button onClick={onButtonClick}>Abrir no Spotify</Button>
