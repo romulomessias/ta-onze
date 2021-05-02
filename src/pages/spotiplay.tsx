@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import { NextPage, GetServerSideProps } from "next";
 import { StyleFunction, useFela } from "react-fela";
@@ -40,14 +40,14 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
         router.push("/api/turnon");
     };
 
-    const onSlackButtonClick = () => {
-        const params = [
-            "scope=incoming-webhook,commands",
-            `client_id=${process.env.SLACK_CLIENT_ID}`,
-            `redirect_uri=${window.location.href}`,
-        ];
-        router.push(`https://slack.com/oauth/v2/authorize?` + params.join("&"));
-    };
+    // const onSlackButtonClick = () => {
+    //     const params = [
+    //         "scope=incoming-webhook,commands",
+    //         `client_id=${process.env.SLACK_CLIENT_ID}`,
+    //         `redirect_uri=${window.location.href}`,
+    //     ];
+    //     router.push(`https://slack.com/oauth/v2/authorize?` + params.join("&"));
+    // };
 
     const onCleatPlaylistButtonClick = () => {
         // axios.post('/api/playlist')
