@@ -15,6 +15,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         "user-read-playback-position",
         "playlist-read-private",
         "playlist-read-collaborative",
+        "playlist-modify-public",
+        "playlist-modify-private",
     ];
     const params = [
         "response_type=code",
@@ -25,12 +27,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log(
         "signin",
-        params,
+        { params },
         "https://accounts.spotify.com/authorize?" + params.join("&")
     );
 
     const url = "https://accounts.spotify.com/authorize?" + params.join("&");
 
+    console.log({ url });
     res.writeHead(301, {
         Location: url,
     });

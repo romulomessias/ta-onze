@@ -9,6 +9,7 @@ import Typography from "../components/typographies/Typography";
 import Container from "../components/layouts/Container";
 import Button from "../components/buttons/Button";
 import { Theme } from "../styles/Theme";
+import Condition from "../components/Condition";
 
 interface SingInPageProps {
     hasPermission: boolean;
@@ -47,17 +48,26 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
                         Spotify integration
                     </Typography>
 
-                    {!hasPermission && (
-                        <Button onClick={onButtonClick}>Login</Button>
-                    )}
-                    {hasPermission && (
-                        <Typography variant="subtitle" weight={300}>
-                            you already has synced your account!!!1!
-                        </Typography>
-                    )}
+                    <Condition>
+                        <Condition.IF condition={hasPermission}>
+                            <Typography variant="subtitle" weight={300}>
+                                you already has synced your account!!!1!
+                            </Typography>
+                        </Condition.IF>
+
+                        <Condition.IF condition={!hasPermission}>
+                            <Button onClick={onButtonClick}>Login</Button>
+                        </Condition.IF>
+                    </Condition>
                 </Container>
             </header>
-            <Container as="section">{hasPermission}</Container>
+            <Container as="section">
+                <Condition>
+                    <Condition.IF condition={hasPermission}>
+                        <Button>Clear current playlist</Button>
+                    </Condition.IF>
+                </Condition>
+            </Container>
         </Layout>
     );
 };
@@ -70,8 +80,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
             baseURL: process.env.PUBLIC_URL,
         });
         hasPermission = data.hasPermission ?? false;
-    } catch {
-        console.log("deu ruim");
+    } catch (e) {
+        console.error(e);
+        hasPermission = false;
     }
 
     return {
