@@ -21,16 +21,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         let token = await redis.get("playOnze");
 
-        console.log(1, { token });
-
         if (!token) {
-            console.log("replay");
             await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
             token = await redis.get("playOnze");
             redis.disconnect();
         }
-
-        console.log(2, { token });
 
         const [playlists, current] = await Promise.all([
             getPlaylists({
@@ -43,6 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }),
         ]);
 
+        res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
         res.status(200).send({
             current,
             previous: playlists.items.filter((item) =>
