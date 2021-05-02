@@ -15,5 +15,7 @@ declare namespace NodeJS {
         SPOTIFY_SECRET_CLIENT_ID: string;
 
         REDIS_ACCESS: string;
+        
+        SLACK_CLIENT_ID: string;
     }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { NextPage, GetServerSideProps } from "next";
 import { StyleFunction, useFela } from "react-fela";
@@ -40,6 +40,20 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
         router.push("/api/turnon");
     };
 
+    const onSlackButtonClick = () => {
+        const params = [
+            "scope=incoming-webhook,commands",
+            `client_id=${process.env.SLACK_CLIENT_ID}`,
+            `redirect_uri=${window.location.href}`,
+        ];
+        router.push(`https://slack.com/oauth/v2/authorize?` + params.join("&"));
+    };
+
+    const onCleatPlaylistButtonClick = () => {
+        // axios.post('/api/playlist')
+        alert('Tenha calma meu jovem!')
+    };
+
     return (
         <Layout>
             <header className={css(headerRules)}>
@@ -64,8 +78,16 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
             <Container as="section">
                 <Condition>
                     <Condition.IF condition={hasPermission}>
-                        <Button>Clear current playlist</Button>
+                        <Button onClick={onCleatPlaylistButtonClick}>
+                            Clear current playlist
+                        </Button>
                     </Condition.IF>
+                </Condition>
+
+                <Condition>
+                    {/* <Condition.IF condition={hasPermission}>
+                        <Button onClick={onSlackButtonClick}>Link slack</Button>
+                    </Condition.IF> */}
                 </Condition>
             </Container>
         </Layout>
