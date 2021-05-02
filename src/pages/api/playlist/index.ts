@@ -25,11 +25,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const currentSprint = await redis.get("currentSprint");
+        redis.set("currentSprint", parseInt(currentSprint!) + 1);
         redis.disconnect();
 
         const userId = "12144153509";
         const createPlaylistPayload = {
-            name: `Tá Onze Teste! ${parseInt(currentSprint!) + 1}`,
+            name: `Tá Onze! Vol. ${parseInt(currentSprint!) + 1}`,
             description: `Playlist da sprint ${parseInt(currentSprint!) + 1}`,
             public: true,
         };
@@ -41,6 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
         };
 
+        //create playlist
         const { data } = await axios.post(
             `https://api.spotify.com/v1/users/${userId}/playlists`,
             createPlaylistPayload,
@@ -51,16 +53,37 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             token: token!,
         });
 
-        const tracks = currentPlaylist.tracks.items
+        const tracksToAdd = currentPlaylist.tracks.items
             .map((it) => it.track.uri)
             .join(",");
 
+        // add music
         const { data: newdata } = await axios.post(
             `https://api.spotify.com/v1/playlists/${data.id}/tracks?uris=` +
-                tracks,
+                tracksToAdd,
             {},
             config
         );
+
+        const tracksToRemove = currentPlaylist.tracks.items.map(
+            (it, index) => ({
+                uri: it.track.uri,
+                positions: [index],
+            })
+        );
+        //clear current playlist cec16e71faa64eb0
+        const a = await axios.delete(
+            `https://api.spotify.com/v1/playlists/${data.id}/tracks?uris=` +
+                tracksToAdd,
+            {
+                ...config,
+                data: {
+                    tracks: tracksToRemove,
+                },
+            }
+        );
+
+        console.log(a.data);
 
         res.status(201).send(newdata);
     } catch (e) {
