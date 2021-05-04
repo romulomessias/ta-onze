@@ -71,9 +71,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 positions: [index],
             })
         );
-        //clear current playlist cec16e71faa64eb0
-        await axios.delete(
-            `https://api.spotify.com/v1/playlists/${currentPlaylist.id}/tracks?uris=` +
+
+        const {data: deletedData} = await axios.delete(
+            `https://api.spotify.com/v1/playlists/34iESXuSY8PzrCDS7pFkLu/tracks?uris=` +
                 tracksToAdd,
             {
                 ...config,
@@ -82,6 +82,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 },
             }
         );
+        console.log({deletedData})
+        //clear current playlist cec16e71faa64eb0
 
         res.status(201).send(newData);
     } catch (e) {
