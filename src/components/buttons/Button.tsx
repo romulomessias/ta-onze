@@ -24,6 +24,9 @@ const buttonRules: StyleFunction<Theme, IButtonProps> = () => ({
         outline: "none",
         borderColor: "#3C70C1",
     },
+    ":disabled": {
+        opacity: 0.5,
+    },
 });
 
 const primaryRules: StyleFunction<Theme, IButtonProps> = ({ theme }) => ({

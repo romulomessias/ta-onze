@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { NextPage, GetServerSideProps } from "next";
 import { StyleFunction, useFela } from "react-fela";
@@ -49,9 +49,14 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
     //     router.push(`https://slack.com/oauth/v2/authorize?` + params.join("&"));
     // };
 
+    const [isLoading, setIsLoading] = useState(false);
     const onCleatPlaylistButtonClick = () => {
-        // axios.post('/api/playlist')
-        alert('Tenha calma meu jovem!')
+        setIsLoading(true);
+        axios
+            .post("/api/playlist")
+            .then(() => alert("A playlist tá limpa meu caro!"))
+            .catch(() => alert("Tenha calma meu jovem! Tente mais uma vez!"))
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -78,7 +83,10 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
             <Container as="section">
                 <Condition>
                     <Condition.IF condition={hasPermission}>
-                        <Button onClick={onCleatPlaylistButtonClick}>
+                        <Button
+                            onClick={onCleatPlaylistButtonClick}
+                            disabled={isLoading}
+                        >
                             Clear current playlist
                         </Button>
                     </Condition.IF>
