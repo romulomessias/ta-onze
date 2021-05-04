@@ -72,9 +72,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             })
         );
 
-        const {data: deletedData} = await axios.delete(
-            `https://api.spotify.com/v1/playlists/34iESXuSY8PzrCDS7pFkLu/tracks?uris=` +
-                tracksToAdd,
+        const { data: deletedData } = await axios.delete(
+            `https://api.spotify.com/v1/playlists/34iESXuSY8PzrCDS7pFkLu/tracks?`,
             {
                 ...config,
                 data: {
@@ -82,7 +81,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 },
             }
         );
-        console.log({deletedData})
+        console.log({ deletedData });
         //clear current playlist cec16e71faa64eb0
 
         res.status(201).send(newData);
