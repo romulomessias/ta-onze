@@ -81,22 +81,18 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
                 </Container>
             </header>
             <Container as="section">
-                <Condition>
-                    <Condition.IF condition={hasPermission}>
-                        <Button
-                            onClick={onCleatPlaylistButtonClick}
-                            disabled={isLoading}
-                        >
-                            Clear current playlist
-                        </Button>
-                    </Condition.IF>
-                </Condition>
+                <Condition.IF condition={hasPermission}>
+                    <Button
+                        onClick={onCleatPlaylistButtonClick}
+                        disabled={isLoading}
+                    >
+                        Clear current playlist
+                    </Button>
+                </Condition.IF>
 
-                <Condition>
-                    {/* <Condition.IF condition={hasPermission}>
+                {/* <Condition.IF condition={hasPermission}>
                         <Button onClick={onSlackButtonClick}>Link slack</Button>
                     </Condition.IF> */}
-                </Condition>
             </Container>
         </Layout>
     );

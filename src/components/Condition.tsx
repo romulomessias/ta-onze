@@ -4,20 +4,20 @@ interface ConditionIfProps {
     condition: boolean;
 }
 
-const IF: FC<ConditionIfProps> = ({ children }) => {
-    return <Fragment>{children}</Fragment>;
+export const IF: FC<ConditionIfProps> = ({ children, condition }) => {
+    return <Fragment>{condition && children}</Fragment>;
 };
 
 const ELSE: FC = ({ children }) => {
     return <Fragment>{children}</Fragment>;
 };
 
-interface ICondition extends FC {
+interface IConditionGroup extends FC {
     IF: FC<ConditionIfProps>;
     Else: FC;
 }
 
-const Condition: ICondition = ({ children }) => {
+const ConditionGroup: IConditionGroup = ({ children }) => {
     const innerChildren = React.Children.toArray(
         children
     ) as React.ReactElement[];
@@ -43,7 +43,7 @@ const Condition: ICondition = ({ children }) => {
     return <Fragment />;
 };
 
-Condition.IF = IF;
-Condition.Else = ELSE;
+ConditionGroup.IF = IF;
+ConditionGroup.Else = ELSE;
 
-export default Condition;
+export default ConditionGroup;
