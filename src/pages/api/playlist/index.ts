@@ -58,7 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             .join(",");
 
         // add music
-        const { data: newdata } = await axios.post(
+        const { data: newData } = await axios.post(
             `https://api.spotify.com/v1/playlists/${data.id}/tracks?uris=` +
                 tracksToAdd,
             {},
@@ -72,8 +72,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             })
         );
         //clear current playlist cec16e71faa64eb0
-        const a = await axios.delete(
-            `https://api.spotify.com/v1/playlists/${data.id}/tracks?uris=` +
+        await axios.delete(
+            `https://api.spotify.com/v1/playlists/${currentPlaylist.id}/tracks?uris=` +
                 tracksToAdd,
             {
                 ...config,
@@ -83,9 +83,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
         );
 
-        console.log(a.data);
-
-        res.status(201).send(newdata);
+        res.status(201).send(newData);
     } catch (e) {
         console.log(e?.data);
         res.status(500).send(e);
