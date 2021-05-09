@@ -55,6 +55,7 @@ const listRules: StyleFunction<Theme> = ({ theme }) => ({
     display: "grid",
     gridAutoFlow: "row",
     gap: 16,
+    paddingBottom: "env(safe-area-inset-bottom)",
 
     "> .typography": {
         color: theme.pallette.neutral0,
