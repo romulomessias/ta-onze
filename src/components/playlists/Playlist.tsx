@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
-import { PlaylistItem } from "../../infra/models/spotify/SpotifyPlaylist";
+import { Playlist as PlaylistModel } from "../../infra/models/playlist/Playlist";
 import { Theme } from "../../styles/Theme";
 import Button from "../buttons/Button";
 import Typography from "../typographies/Typography";
 
 interface PlaylistProps {
-    playlist: PlaylistItem;
+    playlist: PlaylistModel;
 }
 
 const rootRules: StyleFunction<Theme> = ({ theme }) => ({
@@ -36,9 +36,9 @@ const coverRules: StyleFunction<Theme> = ({ theme }) => ({
     width: 172,
 
     [theme.breakpoint.small]: {
-        justifySelf:  "center",
+        justifySelf: "center",
         width: "100%",
-        objectFit: "cover"
+        objectFit: "cover",
     },
 
     ...theme.elevation.level2,
@@ -50,7 +50,7 @@ const Playlist: FC<PlaylistProps> = ({ playlist }) => {
 
     const onButtonClick = () => {
         const a = document.createElement("a");
-        a.href = playlist.external_urls.spotify;
+        a.href = playlist.externalUrl;
         a.target = "_black";
 
         a.click();
