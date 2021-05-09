@@ -40,7 +40,7 @@ const titleRules: StyleFunction<Theme> = ({ theme }) => ({
     "> .typography span ": {
         color: theme.pallette.aqua10,
     },
-
+    borderRadius: 8,
     "> .typography.body": {
         // color: theme.pallette.aqua10,
         marginTop: 8,
@@ -51,11 +51,14 @@ const logoRules: StyleFunction<Theme> = () => ({
     borderRadius: 8,
 });
 
+const layoutRules: StyleFunction<Theme> = () => ({
+    paddingBottom: "calc(20px + env(safe-area-inset-bottom))",
+});
+
 const listRules: StyleFunction<Theme> = ({ theme }) => ({
     display: "grid",
     gridAutoFlow: "row",
     gap: 16,
-    paddingBottom: "env(safe-area-inset-bottom)",
 
     "> .typography": {
         color: theme.pallette.neutral0,
@@ -81,7 +84,7 @@ export default function Index({ current, previous = [] }: IndexProps) {
         a.click();
     };
     return (
-        <Layout>
+        <Layout className={css(layoutRules)}>
             <header className={css(headerRules)}>
                 <Container className={css(heroRules)}>
                     <Image
