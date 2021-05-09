@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ES2018",
+    "module": "commonjs",
     "moduleResolution": "node",
+    "declaration": true,
     "allowJs": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
@@ -24,9 +25,15 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "inlineSourceMap": true,
+    "inlineSources": true,
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cdk.out"
   ],
   "include": [
     "**/*.ts",

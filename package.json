@@ -1,6 +1,9 @@
 {
-  "name": "with-typescript",
+  "name": "ta-onze",
   "version": "1.0.0",
+  "bin": {
+    "ta-onze": "bin/ta-onze.js"
+  },
   "scripts": {
     "dev": "next",
     "build": "next build",
@@ -8,6 +11,9 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.102.0",
+    "@aws-cdk/core": "^1.102.0",
+    "aws-sdk": "^2.903.0",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "fela": "^11.6.1",
@@ -20,14 +26,21 @@
     "next": "latest",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-fela": "^11.6.1"
+    "react-fela": "^11.6.1",
+    "source-map-support": "^0.5.19"
   },
   "devDependencies": {
+    "@aws-cdk/assert": "^1.102.0",
     "@types/ioredis": "^4.26.0",
+    "@types/jest": "^26.0.10",
     "@types/node": "^12.12.21",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
+    "aws-cdk": "^1.102.0",
     "dotenv": "^8.0.0",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
     "typescript": "4.2.4"
   },
   "license": "MIT"
