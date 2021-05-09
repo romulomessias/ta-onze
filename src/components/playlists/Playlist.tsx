@@ -26,7 +26,7 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
     [theme.breakpoint.small]: {
         gridAutoFlow: "row",
         gridTemplateColumns: "auto",
-        paddingRight: 4,
+        padding: 8,
         gap: 16,
     },
 });
