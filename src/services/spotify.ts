@@ -2,9 +2,9 @@ import {
     PlaylistItem,
     PlaylistRequestParams,
     PlaylistsResponse,
-} from "./../infra/spotify/SpotifyPlaylist";
+} from "../infra/models/spotify/SpotifyPlaylist";
 import axios, { AxiosRequestConfig } from "axios";
-import { SpotifyToken } from "../infra/spotify/SpotifyToken";
+import { SpotifyToken } from "../infra/models/spotify/SpotifyToken";
 
 export const getSpotifyToken = async (code: string): Promise<SpotifyToken> => {
     const secrets = `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_SECRET_CLIENT_ID}`;

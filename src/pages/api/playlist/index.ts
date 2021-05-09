@@ -1,3 +1,5 @@
+import { playlistName } from './../../../infra/constants/spotify';
+import { tokenKey, currentSprintKey } from './../../../infra/constants/redis';
 import axios, { AxiosRequestConfig } from "axios";
 import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -17,20 +19,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const redis = new Redis(process.env.REDIS_AUTH);
         await redis.ping("hello");
 
-        let token = await redis.get("playOnze");
+        let token = await redis.get(tokenKey);
         if (!token) {
             await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
-            token = await redis.get("playOnze");
+            token = await redis.get(tokenKey);
             redis.disconnect();
         }
 
-        const currentSprint = await redis.get("currentSprint");
-        redis.set("currentSprint", parseInt(currentSprint!) + 1);
+        const currentSprint = await redis.get(currentSprintKey);
+        redis.set(currentSprintKey, parseInt(currentSprint!) + 1);
         redis.disconnect();
 
         const userId = "12144153509";
         const createPlaylistPayload = {
-            name: `Tá Onze! Vol. ${parseInt(currentSprint!) + 1}`,
+            name: `${playlistName} Vol. ${parseInt(currentSprint!) + 1}`,
             description: `Playlist da sprint ${parseInt(currentSprint!) + 1}`,
             public: true,
         };

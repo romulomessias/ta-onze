@@ -1,3 +1,5 @@
+import { playlistName } from "./../../../infra/constants/spotify";
+import { tokenKey } from "./../../../infra/constants/redis";
 import Redis from "ioredis";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -19,11 +21,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const redis = new Redis(process.env.REDIS_AUTH);
         await redis.ping("hello");
 
-        let token = await redis.get("playOnze");
+        let token = await redis.get(tokenKey);
 
         if (!token) {
             await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
-            token = await redis.get("playOnze");
+            token = await redis.get(tokenKey);
             redis.disconnect();
         }
 
@@ -38,11 +40,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }),
         ]);
 
-        res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+        res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate");
         res.status(200).send({
             current,
             previous: playlists.items.filter((item) =>
-                item.name.includes("Tá Onze! Vol.")
+                item.name.includes(`${playlistName} Vol.`)
             ),
         });
     } catch (e) {

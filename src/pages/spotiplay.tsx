@@ -9,7 +9,7 @@ import Typography from "../components/typographies/Typography";
 import Container from "../components/layouts/Container";
 import Button from "../components/buttons/Button";
 import { Theme } from "../styles/Theme";
-import Condition from "../components/Condition";
+import Condition from "../components/layouts/Condition";
 
 interface SingInPageProps {
     hasPermission: boolean;

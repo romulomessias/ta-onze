@@ -9,7 +9,7 @@ import Layout from "../components/layouts/Layout";
 // import CurrentPlaylist from "../components/playlists/CurrentPlaylist";
 import Playlist from "../components/playlists/Playlist";
 import Typography from "../components/typographies/Typography";
-import { PlaylistItem } from "../infra/spotify/SpotifyPlaylist";
+import { PlaylistItem } from "../infra/models/spotify/SpotifyPlaylist";
 import { Theme } from "../styles/Theme";
 
 const heroRules: StyleFunction<Theme> = ({ theme }) => ({

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
-import { PlaylistItem } from "../../infra/spotify/SpotifyPlaylist";
+import { PlaylistItem } from "../../infra/models/spotify/SpotifyPlaylist";
 import { Theme } from "../../styles/Theme";
 import Button from "../buttons/Button";
 import Typography from "../typographies/Typography";

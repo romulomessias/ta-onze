@@ -1,3 +1,4 @@
+import { refreshTokenKey, tokenKey } from './../../../infra/constants/redis';
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import Redis from "ioredis";
@@ -45,10 +46,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const redis = new Redis(process.env.REDIS_AUTH);
         await redis.ping("hello");
 
-        const refresh = (await redis.get("replayOnze"))!;
+        const refresh = (await redis.get(refreshTokenKey))!;
         const token = await refreshToken(refresh);
 
-        redis.set("playOnze", token.play, "EX", token.time);
+        redis.set(tokenKey, token.play, "EX", token.time);
         redis.disconnect();
         res.status(200).send("token refreshed");
     } catch (e) {
