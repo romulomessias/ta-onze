@@ -6,9 +6,9 @@ import Button from "../components/buttons/Button";
 
 import Container from "../components/layouts/Container";
 import Layout from "../components/layouts/Layout";
-// import CurrentPlaylist from "../components/playlists/CurrentPlaylist";
 import Playlist from "../components/playlists/Playlist";
 import Typography from "../components/typographies/Typography";
+import { Playlist as PlaylistModel } from "../infra/models/playlist/Playlist";
 import { PlaylistItem } from "../infra/models/spotify/SpotifyPlaylist";
 import { Theme } from "../styles/Theme";
 
@@ -63,15 +63,15 @@ const listRules: StyleFunction<Theme> = ({ theme }) => ({
 
 interface IndexProps {
     current: PlaylistItem;
-    previous: PlaylistItem[];
+    previous: PlaylistModel[];
 }
 
 export default function Index({ current, previous = [] }: IndexProps) {
     const { css } = useFela<Theme>();
 
     const onButtonClick = () => {
-        if(!current) {
-            alert("Sorry! Não deu pra abrir a playlist :(")
+        if (!current) {
+            alert("Sorry! Não deu pra abrir a playlist :(");
         }
         const a = document.createElement("a");
         a.href = current.external_urls.spotify;
@@ -99,10 +99,12 @@ export default function Index({ current, previous = [] }: IndexProps) {
                             <strong>RV</strong>
                         </Typography>
 
-                       {current && <Typography as="p" weight={300}>
-                            atualmente com{" "}
-                            <strong>{current.tracks.total}</strong> músicas
-                        </Typography>}
+                        {current && (
+                            <Typography as="p" weight={300}>
+                                atualmente com{" "}
+                                <strong>{current.tracks.total}</strong> músicas
+                            </Typography>
+                        )}
                     </section>
 
                     <Button onClick={onButtonClick}>Abrir no Spotify</Button>

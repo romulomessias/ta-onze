@@ -1,9 +1,8 @@
-import { playlistName } from "./../../../infra/constants/spotify";
 import { tokenKey } from "./../../../infra/constants/redis";
 import Redis from "ioredis";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getCurrentPlaylist, getPlaylists } from "../../../services/spotify";
+import { getCurrentPlaylist } from "../../../services/spotify";
 import { getAll } from "../../../services/playlist";
 
 /**
