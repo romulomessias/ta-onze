@@ -1,11 +1,8 @@
 import { getPlaylist } from "./../../../services/spotify";
 import { createPlaylist } from "./../../../services/playlist";
-import { Album } from "./../../../infra/models/spotify/SpotifyTrack";
-import { Playlist } from "./../../../infra/models/playlist/Playlist";
 import {
     PlaylistItem,
     Tracks,
-    TracksItem,
 } from "./../../../infra/models/spotify/SpotifyPlaylist";
 import { playlistName } from "./../../../infra/constants/spotify";
 import { tokenKey, currentSprintKey } from "./../../../infra/constants/redis";
