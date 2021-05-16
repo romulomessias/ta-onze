@@ -1,3 +1,4 @@
+import { TracksItem } from './../spotify/SpotifyPlaylist';
 
 export interface Playlist {
     id: string;
@@ -11,7 +12,7 @@ export interface Playlist {
 }
 
 export interface Tracks {
-    items: TrackItem[];
+    items: Partial<TracksItem>[];
     total: number;
 }
 
@@ -25,7 +26,6 @@ export interface User {
     id: string;
     name?: string
 }
-
 
 export interface Image {
   height: number;

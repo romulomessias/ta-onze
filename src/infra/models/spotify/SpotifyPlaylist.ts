@@ -5,6 +5,7 @@ export interface PlaylistRequestParams {
     token: string;
     limit?: number;
     offset?: number;
+    id?: string
 }
 
 export interface PlaylistsResponse {
@@ -51,17 +52,17 @@ export interface Tracks {
     href:     string;
     items:    TracksItem[];
     limit:    number;
-    next:     null;
+    next:     null | string;
     offset:   number;
-    previous: null;
+    previous: null | string;
     total:    number;
 }
 
 export interface TracksItem {
     added_at:        Date;
     added_by:        Owner;
-    is_local:        boolean;
-    primary_color:   null;
+    is_local?:        boolean;
+    primary_color?:   null;
     track:           TrackDetail;
-    video_thumbnail: VideoThumbnail;
+    video_thumbnail?: VideoThumbnail;
 }

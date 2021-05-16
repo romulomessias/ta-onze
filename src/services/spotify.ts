@@ -65,7 +65,13 @@ export const getSpotifyRefreshedToken = async (
 export const getCurrentPlaylist = async (
     params: PlaylistRequestParams
 ): Promise<PlaylistItem> => {
-    const { token } = params;
+    return getPlaylist({ ...params, id: "34iESXuSY8PzrCDS7pFkLu" });
+};
+
+export const getPlaylist = async (
+    params: PlaylistRequestParams
+): Promise<PlaylistItem> => {
+    const { token, id } = params;
     const config: AxiosRequestConfig = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +82,7 @@ export const getCurrentPlaylist = async (
 
     try {
         const { data } = await axios.get<PlaylistItem>(
-            "https://api.spotify.com/v1/playlists/34iESXuSY8PzrCDS7pFkLu",
+            "https://api.spotify.com/v1/playlists/" + id,
             config
         );
 

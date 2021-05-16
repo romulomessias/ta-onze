@@ -1,5 +1,14 @@
-import { playlistName } from './../../../infra/constants/spotify';
-import { tokenKey, currentSprintKey } from './../../../infra/constants/redis';
+import { getPlaylist } from "./../../../services/spotify";
+import { createPlaylist } from "./../../../services/playlist";
+import { Album } from "./../../../infra/models/spotify/SpotifyTrack";
+import { Playlist } from "./../../../infra/models/playlist/Playlist";
+import {
+    PlaylistItem,
+    Tracks,
+    TracksItem,
+} from "./../../../infra/models/spotify/SpotifyPlaylist";
+import { playlistName } from "./../../../infra/constants/spotify";
+import { tokenKey, currentSprintKey } from "./../../../infra/constants/redis";
 import axios, { AxiosRequestConfig } from "axios";
 import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -44,50 +53,74 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             },
         };
 
+        const currentPlaylist = await getCurrentPlaylist({
+            token: token!,
+        });
+
+        let next: string | null = currentPlaylist.tracks.next;
+        let tracks = currentPlaylist.tracks.items;
+
         //create playlist
-        const { data } = await axios.post(
+        const { data: newPlaylist } = await axios.post<PlaylistItem>(
             `https://api.spotify.com/v1/users/${userId}/playlists`,
             createPlaylistPayload,
             config
         );
 
-        const currentPlaylist = await getCurrentPlaylist({
-            token: token!,
-        });
-
-        const tracksToAdd = currentPlaylist.tracks.items
-            .map((it) => it.track.uri)
-            .join(",");
-
         // add music
-        const { data: newData } = await axios.post(
-            `https://api.spotify.com/v1/playlists/${data.id}/tracks?uris=` +
-                tracksToAdd,
+        const playlistTracks = tracks.map((it) => it.track.uri).join(",");
+        await axios.post(
+            `https://api.spotify.com/v1/playlists/${newPlaylist.id}/tracks?uris=` +
+                playlistTracks,
             {},
             config
         );
 
-        const tracksToRemove = currentPlaylist.tracks.items.map(
-            (it, index) => ({
-                uri: it.track.uri,
-                positions: [index],
-            })
-        );
+        while (next) {
+            console.log(`getting more: ${next}`);
+            const { data: currentTracks } = await axios.get<Tracks>(
+                next!,
+                config
+            );
+            tracks = [...tracks, ...currentTracks.items];
+            next = currentTracks.next;
 
-        const { data: deletedData } = await axios.delete(
-            `https://api.spotify.com/v1/playlists/34iESXuSY8PzrCDS7pFkLu/tracks?`,
-            {
-                ...config,
-                data: {
-                    tracks: tracksToRemove,
-                },
-            }
-        );
-        console.log({ deletedData });
+            const morePlaylistTracks = currentTracks.items
+                .map((it) => it.track.uri)
+                .join(",");
+            await axios.post(
+                `https://api.spotify.com/v1/playlists/${newPlaylist.id}/tracks?uris=` +
+                    morePlaylistTracks,
+                {},
+                config
+            );
+        }
+
+        const updatedPlaylist = await getPlaylist({
+            token: token!,
+            id: newPlaylist.id,
+        });
+
+        createPlaylist(updatedPlaylist, tracks).then((res) => {
+            console.log("saved at dynamo", res);
+        });
+
+        // https://open.spotify.com/playlist/4U9wh76pT9tWARLR04bloA?si=cfc5f73f3567491d
+        // const { data: deletedData } = await axios.delete(
+        //     `https://api.spotify.com/v1/playlists/4U9wh76pT9tWARLR04bloA/tracks?`,
+        //     {
+        //         ...config,
+        //         data: {
+        //             tracks: tracksToRemove,
+        //         },
+        //     }
+        // );
+        // console.log({ deletedData });
         //clear current playlist cec16e71faa64eb0
 
-        res.status(201).send(newData);
+        res.status(201).send(updatedPlaylist);
     } catch (e) {
+        console.log(e);
         console.log(e?.data);
         res.status(500).send(e);
     }
