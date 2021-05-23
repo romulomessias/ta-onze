@@ -16,6 +16,7 @@
     "aws-sdk": "^2.903.0",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
+    "cookie": "^0.4.1",
     "fela": "^11.6.1",
     "fela-dom": "^11.6.1",
     "fela-monolithic": "^11.6.1",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.102.0",
+    "@types/cookie": "^0.4.0",
     "@types/ioredis": "^4.26.0",
     "@types/jest": "^26.0.10",
     "@types/node": "^12.12.21",
