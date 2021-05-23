@@ -46,7 +46,7 @@ export async function getById(id: string) {
         },
     });
 
-    return Item;
+    return Item as Playlist;
 }
 
 export async function updateTracks(id: string, tracks: TracksItem[]) {
@@ -92,6 +92,19 @@ export async function updateTracks(id: string, tracks: TracksItem[]) {
         },
         ExpressionAttributeValues: {
             ":newTracks": mapped,
+        },
+    });
+}
+
+export async function updatePlaylistGenres(id: string, genres: object[]) {
+    return dynamoClient.update({
+        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        Key: {
+            id,
+        },
+        UpdateExpression: "set genres = :genres",
+        ExpressionAttributeValues: {
+            ":genres": genres,
         },
     });
 }

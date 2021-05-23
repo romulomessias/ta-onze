@@ -1,4 +1,4 @@
-import { TracksItem } from './../spotify/SpotifyPlaylist';
+import { TracksItem } from "./../spotify/SpotifyPlaylist";
 
 export interface Playlist {
     id: string;
@@ -8,27 +8,26 @@ export interface Playlist {
     type: string;
     images: Image[];
     tracks: Tracks;
-    createdAt?: number,
+    createdAt?: number;
 }
 
 export interface Tracks {
-    items: Partial<TracksItem>[];
+    items: TracksItem[];
     total: number;
 }
 
 export interface TrackItem {
-    addedAt:        Date;
-    addedBy:        User;
+    addedAt: Date;
+    addedBy: User;
 }
-
 
 export interface User {
     id: string;
-    name?: string
+    name?: string;
 }
 
 export interface Image {
-  height: number;
-  url: string;
-  width: number;
+    height: number;
+    url: string;
+    width: number;
 }
