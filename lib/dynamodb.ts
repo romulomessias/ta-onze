@@ -10,6 +10,7 @@ const client = new DynamoDB.DocumentClient({
     region: "us-east-1",
 });
 
+
 const dynamoClient = {
     get: (params: DynamoDB.DocumentClient.GetItemInput) =>
         client.get(params).promise(),
@@ -21,6 +22,8 @@ const dynamoClient = {
         client.query(params).promise(),
     delete: (params: DynamoDB.DocumentClient.DeleteItemInput) =>
         client.delete(params).promise(),
+    update: (params: DynamoDB.DocumentClient.UpdateItemInput) => client.update(params).promise()
+        
 };
 
 export default dynamoClient;
