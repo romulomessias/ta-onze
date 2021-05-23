@@ -1,5 +1,5 @@
 import { getPlaylist } from "./../../../services/spotify";
-import { createPlaylist } from "./../../../services/playlist";
+import { createPlaylist, updateTracks } from "./../../../services/playlist";
 import {
     PlaylistItem,
     Tracks,
@@ -98,27 +98,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             id: newPlaylist.id,
         });
 
-        createPlaylist(updatedPlaylist, tracks).then((res) => {
+        //save on dynamodb
+        createPlaylist(updatedPlaylist).then(async (res) => {
             console.log("saved at dynamo", res);
+            await updateTracks(updatedPlaylist.id, tracks);
         });
 
-        // https://open.spotify.com/playlist/4U9wh76pT9tWARLR04bloA?si=cfc5f73f3567491d
-        // const { data: deletedData } = await axios.delete(
-        //     `https://api.spotify.com/v1/playlists/4U9wh76pT9tWARLR04bloA/tracks?`,
-        //     {
-        //         ...config,
-        //         data: {
-        //             tracks: tracksToRemove,
-        //         },
-        //     }
-        // );
-        // console.log({ deletedData });
-        //clear current playlist cec16e71faa64eb0
+        // if (userId === currentPlaylist.owner.id) {
+        //     const { data: deletedData } = await axios.delete(
+        //         `https://api.spotify.com/v1/playlists/4U9wh76pT9tWARLR04bloA/tracks?`,
+        //         {
+        //             ...config,
+        //             data: {
+        //                 tracks: tracksToRemove,
+        //             },
+        //         }
+        //     );
+        // }
 
         res.status(201).send(updatedPlaylist);
     } catch (e) {
-        console.log(e);
-        console.log(e?.data);
         res.status(500).send(e);
     }
 };
