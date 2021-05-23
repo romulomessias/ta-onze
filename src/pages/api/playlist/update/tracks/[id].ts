@@ -4,7 +4,7 @@ import { tokenKey } from "./../../../../../infra/constants/redis";
 import axios, { AxiosRequestConfig } from "axios";
 import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getById, updateTracks } from "../../../../../services/playlist";
+import { updateTracks } from "../../../../../services/playlist";
 
 /**
  * get token

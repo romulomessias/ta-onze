@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { NextPage, GetServerSideProps } from "next";
 import { StyleFunction, useFela } from "react-fela";
@@ -50,7 +50,6 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
             .catch(() => alert("Tenha calma meu jovem! Tente mais uma vez!"))
             .finally(() => setIsClearingPlaylist(false));
     };
-
 
     return (
         <Layout>

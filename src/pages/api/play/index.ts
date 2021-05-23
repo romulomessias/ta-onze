@@ -1,6 +1,6 @@
-import Redis from "ioredis";
+// import Redis from "ioredis";
 import cookie from "cookie";
-import { tokenKey, refreshTokenKey } from "./../../../infra/constants/redis";
+// import { tokenKey, refreshTokenKey } from "./../../../infra/constants/redis";
 import { NextApiRequest, NextApiResponse } from "next";
 import { SpotifyToken } from "../../../infra/models/spotify/SpotifyToken";
 import { getSpotifyToken } from "./../../../services/spotify";

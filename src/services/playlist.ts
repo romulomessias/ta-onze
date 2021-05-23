@@ -22,6 +22,7 @@ export const createPlaylist = (newPlaylist: PlaylistItem) => {
         type: newPlaylist.type,
         createdAt: Date.now(),
         tracks: { ...newPlaylist.tracks },
+        genres: [],
     };
 
     return dynamoClient.put({

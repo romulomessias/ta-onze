@@ -9,6 +9,12 @@ export interface Playlist {
     images: Image[];
     tracks: Tracks;
     createdAt?: number;
+    genres: Genre[];
+}
+
+export interface Genre {
+    name: string;
+    popularity: number
 }
 
 export interface Tracks {
