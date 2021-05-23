@@ -1,5 +1,6 @@
-import { tokenKey, refreshTokenKey } from './../../../infra/constants/redis';
 import Redis from "ioredis";
+import cookie from "cookie";
+import { tokenKey, refreshTokenKey } from "./../../../infra/constants/redis";
 import { NextApiRequest, NextApiResponse } from "next";
 import { SpotifyToken } from "../../../infra/models/spotify/SpotifyToken";
 import { getSpotifyToken } from "./../../../services/spotify";
@@ -32,18 +33,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         if (token) {
-            const redis = new Redis(process.env.REDIS_AUTH);
-            await redis.ping("hello");
+            // const redis = new Redis(process.env.REDIS_AUTH);
+            // await redis.ping("hello");
 
-            await redis
-                .multi()
-                .set(tokenKey, token.play, "EX", token.time)
-                .set(refreshTokenKey, token.replay!)
-                .exec();
-            redis.disconnect();
+            // await redis
+            //     .multi()
+            //     .set(tokenKey, token.play, "EX", token.time)
+            //     .set(refreshTokenKey, token.replay!)
+            //     .exec();
+            // redis.disconnect();
+
+            res.setHeader(
+                "Set-Cookie",
+                cookie.serialize("play", token.play, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV !== "development",
+                    maxAge: token.time,
+                    sameSite: "strict",
+                    path: "/spotiplay",
+                })
+            );
             res.redirect(`${process.env.PUBLIC_URL}/spotiplay`);
         }
     } catch (e) {
         console.log(e);
+        res.status(500).send(e);
     }
 };
