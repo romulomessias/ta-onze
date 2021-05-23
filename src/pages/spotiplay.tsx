@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NextPage, GetServerSideProps } from "next";
 import { StyleFunction, useFela } from "react-fela";
 import { useRouter } from "next/router";
+import cookie from "cookie";
 
 import Layout from "../components/layouts/Layout";
 import Typography from "../components/typographies/Typography";
@@ -40,24 +41,16 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
         router.push("/api/turnon");
     };
 
-    // const onSlackButtonClick = () => {
-    //     const params = [
-    //         "scope=incoming-webhook,commands",
-    //         `client_id=${process.env.SLACK_CLIENT_ID}`,
-    //         `redirect_uri=${window.location.href}`,
-    //     ];
-    //     router.push(`https://slack.com/oauth/v2/authorize?` + params.join("&"));
-    // };
-
-    const [isLoading, setIsLoading] = useState(false);
+    const [isClearingPlaylist, setIsClearingPlaylist] = useState(false);
     const onCleatPlaylistButtonClick = () => {
-        setIsLoading(true);
+        setIsClearingPlaylist(true);
         axios
             .post("/api/playlist")
             .then(() => alert("A playlist tá limpa meu caro!"))
             .catch(() => alert("Tenha calma meu jovem! Tente mais uma vez!"))
-            .finally(() => setIsLoading(false));
+            .finally(() => setIsClearingPlaylist(false));
     };
+
 
     return (
         <Layout>
@@ -84,36 +77,32 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
                 <Condition.IF condition={hasPermission}>
                     <Button
                         onClick={onCleatPlaylistButtonClick}
-                        disabled={isLoading}
+                        disabled={isClearingPlaylist}
                     >
                         Clear current playlist
                     </Button>
                 </Condition.IF>
-
-                {/* <Condition.IF condition={hasPermission}>
-                        <Button onClick={onSlackButtonClick}>Link slack</Button>
-                    </Condition.IF> */}
             </Container>
         </Layout>
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-    let hasPermission = false;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const cookies = cookie.parse(context.req.headers.cookie || "");
 
-    try {
-        const { data } = await axios.get("/api/canyouhear", {
-            baseURL: process.env.PUBLIC_URL,
-        });
-        hasPermission = data.hasPermission ?? false;
-    } catch (e) {
-        console.error(e);
-        hasPermission = false;
-    }
+    // try {
+    //     const { data } = await axios.get("/api/canyouhear", {
+    //         baseURL: process.env.PUBLIC_URL,
+    //     });
+    //     hasPermission = data.hasPermission ?? false;
+    // } catch (e) {
+    //     console.error(e);
+    //     hasPermission = false;
+    // }
 
     return {
         props: {
-            hasPermission,
+            hasPermission: cookies.play !== undefined,
         },
     };
 };
