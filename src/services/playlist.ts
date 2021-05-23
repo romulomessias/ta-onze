@@ -1,4 +1,4 @@
-import { Playlist } from './../infra/models/playlist/Playlist';
+import { Playlist } from "./../infra/models/playlist/Playlist";
 import {
     PlaylistItem,
     TracksItem,
@@ -12,11 +12,44 @@ type omitKeys =
     | "explicit"
     | "episode";
 
+export const createPlaylist = (newPlaylist: PlaylistItem) => {
+    const playlist: Playlist = {
+        id: newPlaylist.id,
+        name: newPlaylist.name,
+        description: newPlaylist.description,
+        externalUrl: newPlaylist.external_urls.spotify,
+        images: newPlaylist.images,
+        type: newPlaylist.type,
+        createdAt: Date.now(),
+        tracks: { ...newPlaylist.tracks },
+    };
 
-export const createPlaylist = (
-    newPlaylist: PlaylistItem,
-    tracks: TracksItem[]
-) => {
+    return dynamoClient.put({
+        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        Item: playlist,
+    });
+};
+
+export async function getAll() {
+    const { Items = [] } = await dynamoClient.getAll({
+        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+    });
+
+    return Items;
+}
+
+export async function getById(id: string) {
+    const { Item } = await dynamoClient.get({
+        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        Key: {
+            id,
+        },
+    });
+
+    return Item;
+}
+
+export async function updateTracks(id: string, tracks: TracksItem[]) {
     const mapped = tracks.map((it) => {
         const { primary_color, video_thumbnail, is_local, ...rest } = it;
         const {
@@ -38,7 +71,6 @@ export const createPlaylist = (
             track_number,
             type: trackType,
             uri: trackUri,
-
             ...track
         } = it.track;
 
@@ -48,30 +80,18 @@ export const createPlaylist = (
         };
         return omitted;
     });
-    const playlist: Playlist = {
-        id: newPlaylist.id,
-        name: newPlaylist.name,
-        description: newPlaylist.description,
-        externalUrl: newPlaylist.external_urls.spotify,
-        images: newPlaylist.images,
-        type: newPlaylist.type,
-        createdAt: Date.now(),
-        tracks: {
-            total: mapped.length,
-            items: mapped,
+
+    return dynamoClient.update({
+        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        Key: {
+            id,
         },
-    };
-
-    return dynamoClient.put({
-        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
-        Item: playlist,
+        UpdateExpression: "set tracks.#trackItems = :newTracks",
+        ExpressionAttributeNames: {
+            "#trackItems": "items",
+        },
+        ExpressionAttributeValues: {
+            ":newTracks": mapped,
+        },
     });
-};
-
-export async function getAll() {
-    const { Items = [] } = await dynamoClient.getAll({
-        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
-    });
-
-    return Items;
 }
