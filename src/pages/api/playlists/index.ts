@@ -15,8 +15,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     }
 
-    // const { limit = 25, offset = 0 } = req.query;
-
     try {
         const redis = new Redis(process.env.REDIS_AUTH);
         await redis.ping("hello");
@@ -36,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             getAll(),
         ]);
 
-        res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate");
+        res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
         res.status(200).send({
             current,
             previous,
