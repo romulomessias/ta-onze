@@ -118,9 +118,13 @@ export default function Index({ current, previous = [] }: IndexProps) {
                 <Typography as="h3" variant="headline3">
                     Playlists anteriores
                 </Typography>
-                {previous.map((item) => (
-                    <Playlist key={item.id} playlist={item} />
-                ))}
+                {previous
+                    .sort(
+                        (first, second) => first.createdAt! - second.createdAt!
+                    )
+                    .map((item) => (
+                        <Playlist key={item.id} playlist={item} />
+                    ))}
             </Container>
         </Layout>
     );
