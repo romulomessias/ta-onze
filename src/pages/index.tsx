@@ -120,7 +120,7 @@ export default function Index({ current, previous = [] }: IndexProps) {
                 </Typography>
                 {previous
                     .sort(
-                        (first, second) => first.createdAt! - second.createdAt!
+                        (first, second) => second.createdAt! - first.createdAt!
                     )
                     .map((item) => (
                         <Playlist key={item.id} playlist={item} />
