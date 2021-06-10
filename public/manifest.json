@@ -4,7 +4,7 @@
   "name": "Tá Onze!",
   "short_name": "Tá Onze!",
   "scope": "/",
-  "display": "browser",
+  "display": "standalone",
   "start_url": "https://www.taonze.com.br/",
   "background_color": "#002740",
   "theme_color": "#124666",
@@ -14,9 +14,34 @@
   "prefer_related_applications": "false",
   "icons": [
     {
-      "src": "https://www.taonze.com.br/logo.jpeg",
-      "type": "image/jpeg",
-      "sizes": "640x640"
+      "src": "https://www.taonze.com.br/launchericon-48-48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "https://www.taonze.com.br/launchericon-72-72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "https://www.taonze.com.br/launchericon-96-96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "https://www.taonze.com.br/launchericon-144-144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "https://www.taonze.com.br/launchericon-192-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://www.taonze.com.br/launchericon-512-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "url": "https://www.taonze.com.br/",
