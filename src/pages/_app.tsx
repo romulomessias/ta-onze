@@ -11,6 +11,7 @@ const App: FC<IAppProps> = ({ Component, pageProps, renderer }) => {
             <Head>
                 <title>Tá Onze!</title>
                 <link rel="shortcut icon" href="/logo.jpeg" />
+                <link rel="manifest" href="/manifest.json" />
                 <meta
                     name="viewport"
                     content="initial-scale=1.0, width=device-width"
