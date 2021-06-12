@@ -5,7 +5,7 @@
   "short_name": "Tá Onze!",
   "scope": "/",
   "display": "standalone",
-  "start_url": "http://localhost:3000/",
+  "start_url": "https://www.taonze.com.br/",
   "background_color": "#002740",
   "theme_color": "#124666",
   "description": "App para acompanhar as playlists quinzenais do time da Onze.",

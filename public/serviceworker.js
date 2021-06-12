@@ -12,7 +12,6 @@ self.addEventListener("message", (event) => {
 });
 
 self.addEventListener("install", async (event) => {
-    s;
     event.waitUntil(
         self.caches.open(CACHE).then((cache) => {
             console.log(offlineFallbackPage);
