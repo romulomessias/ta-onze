@@ -1,6 +1,7 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import Image from "next/image";
+import { useEffect } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import Button from "../components/buttons/Button";
 
@@ -83,6 +84,22 @@ export default function Index({ current, previous = [] }: IndexProps) {
 
         a.click();
     };
+
+    useEffect(() => {
+        if("serviceWorker" in navigator) {
+          window.addEventListener("load", function () {
+           navigator.serviceWorker.register("/serviceworker.js").then(
+              function (registration) {
+                console.log("Service Worker registration successful with scope: ", registration.scope);
+              },
+              function (err) {
+                console.log("Service Worker registration failed: ", err);
+              }
+            );
+          });
+        }
+      }, [])
+
     return (
         <Layout className={css(layoutRules)}>
             <header className={css(headerRules)}>
@@ -141,7 +158,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
                 ...data,
             },
         };
-    } catch {
+    } catch (e){
+        console.log(e)
         console.log("deu ruim");
     }
 
