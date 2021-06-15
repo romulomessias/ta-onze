@@ -32,8 +32,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (!token) {
             await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
             token = await redis.get(tokenKey);
-            redis.disconnect();
         }
+
+        redis.disconnect();
 
         const config: AxiosRequestConfig = {
             headers: {
@@ -67,7 +68,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         await updatePlaylistGenres(id as string, genres);
 
-        res.status(204);
+        res.status(204).send({genres});
     } catch (e) {
         console.log("deu erro", e);
         res.status(500).send(e);
