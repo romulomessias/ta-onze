@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import { Playlist as PlaylistModel } from "../../infra/models/playlist/Playlist";
@@ -23,6 +24,7 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
     borderWidth: 2,
     borderStyle: "solid",
     borderColor: theme.pallette.neutral10,
+    cursor: "default",
 
     [theme.breakpoint.small]: {
         gridAutoFlow: "row",
@@ -30,12 +32,19 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
         padding: 8,
         gap: 16,
     },
+
+    ":hover": {
+        "> img": {
+            transform: "scale(1.03)",
+        },
+    },
 });
 
 const coverRules: StyleFunction<Theme> = ({ theme }) => ({
     borderRadius: 8,
     height: 172,
     width: 172,
+    transition: "all 0.2s",
 
     [theme.breakpoint.small]: {
         justifySelf: "center",
@@ -79,17 +88,21 @@ const Playlist: FC<PlaylistProps> = ({ playlist }) => {
     const [first, second, third] = genres;
 
     const { css } = useFela<Theme>();
+    const router = useRouter();
 
     const onButtonClick = () => {
         const a = document.createElement("a");
         a.href = playlist.externalUrl;
         a.target = "_black";
-
         a.click();
     };
 
+    const onCardClick = () => {
+        router.push(`/playlist/${playlist.id}`);
+    };
+
     return (
-        <section className={css(rootRules)}>
+        <section className={css(rootRules)} onClick={onCardClick}>
             <img src={image.url} className={css(coverRules)} />
             <section className={css(contentGroupRules)}>
                 <Typography variant="headline4" weight={500}>

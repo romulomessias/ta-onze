@@ -37,15 +37,8 @@ const headerRules: StyleFunction<Theme> = ({ theme }) => ({
     paddingBottom: 24,
 });
 
-const titleRules: StyleFunction<Theme> = ({ theme }) => ({
-    "> .typography span ": {
-        color: theme.pallette.aqua10,
-    },
+const titleRules: StyleFunction<Theme> = () => ({
     borderRadius: 8,
-    "> .typography.body": {
-        // color: theme.pallette.aqua10,
-        marginTop: 8,
-    },
 });
 
 const logoRules: StyleFunction<Theme> = () => ({
@@ -56,14 +49,10 @@ const layoutRules: StyleFunction<Theme> = () => ({
     paddingBottom: "calc(20px + env(safe-area-inset-bottom))",
 });
 
-const listRules: StyleFunction<Theme> = ({ theme }) => ({
+const listRules: StyleFunction<Theme> = () => ({
     display: "grid",
     gridAutoFlow: "row",
     gap: 16,
-
-    "> .typography": {
-        color: theme.pallette.neutral0,
-    },
 });
 
 interface IndexProps {
@@ -86,19 +75,25 @@ export default function Index({ current, previous = [] }: IndexProps) {
     };
 
     useEffect(() => {
-        if("serviceWorker" in navigator) {
-          window.addEventListener("load", function () {
-           navigator.serviceWorker.register("/serviceworker.js").then(
-              function (registration) {
-                console.log("Service Worker registration successful with scope: ", registration.scope);
-              },
-              function (err) {
-                console.log("Service Worker registration failed: ", err);
-              }
-            );
-          });
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("/serviceworker.js").then(
+                    function (registration) {
+                        console.log(
+                            "Service Worker registration successful with scope: ",
+                            registration.scope
+                        );
+                    },
+                    function (err) {
+                        console.log(
+                            "Service Worker registration failed: ",
+                            err
+                        );
+                    }
+                );
+            });
         }
-      }, [])
+    }, []);
 
     return (
         <Layout className={css(layoutRules)}>
@@ -113,7 +108,10 @@ export default function Index({ current, previous = [] }: IndexProps) {
                     />
                     <section className={css(titleRules)}>
                         <Typography as="h1" variant="headline1">
-                            Tá Onze<span>!</span>
+                            Tá Onze
+                            <Typography as="span" color="aqua10" variant="headline1">
+                                !
+                            </Typography>
                         </Typography>
                         <Typography as="p" variant="subtitle" weight={300}>
                             A playlist quinzenal do time mais badalado da{" "}
@@ -121,7 +119,11 @@ export default function Index({ current, previous = [] }: IndexProps) {
                         </Typography>
 
                         {current && (
-                            <Typography as="p" weight={300}>
+                            <Typography
+                                as="p"
+                                weight={300}
+                                style={{ marginTop: 8 }}
+                            >
                                 atualmente com{" "}
                                 <strong>{current.tracks.total}</strong> músicas
                             </Typography>
@@ -132,7 +134,7 @@ export default function Index({ current, previous = [] }: IndexProps) {
                 </Container>
             </header>
             <Container as="section" className={css(listRules)}>
-                <Typography as="h3" variant="headline3">
+                <Typography as="h3" variant="headline3" color="neutral0">
                     Playlists anteriores
                 </Typography>
                 {previous
@@ -158,8 +160,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
                 ...data,
             },
         };
-    } catch (e){
-        console.log(e)
+    } catch (e) {
+        console.log(e);
         console.log("deu ruim");
     }
 

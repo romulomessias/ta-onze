@@ -1,30 +1,26 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { interpolateAs } from "next/dist/next-server/lib/router/router";
-import Image from "next/image";
-import { useEffect } from "react";
 import { StyleFunction, useFela } from "react-fela";
-import Button from "../../components/buttons/Button";
 import { Playlist as PlaylistModel } from "../../infra/models/playlist/Playlist";
 import Container from "../../components/layouts/Container";
 import Layout from "../../components/layouts/Layout";
-import Playlist from "../../components/playlists/Playlist";
-
 import Typography from "../../components/typographies/Typography";
 import { Theme } from "../../styles/Theme";
 import PlaylistHero from "../../components/playlists/PlaylistHero";
+import TrackSection from "../../components/tracks/TrackSection";
 
-const layoutRules: StyleFunction<Theme> = () => ({
+const layoutRules: StyleFunction<Theme> = ({ theme }) => ({
+    backgroundColor: theme.pallette.neutral10,
     paddingBottom: "calc(20px + env(safe-area-inset-bottom))",
 });
 
-const listRules: StyleFunction<Theme> = ({ theme }) => ({
+const contentRules: StyleFunction<Theme> = ({ theme }) => ({
     display: "grid",
     gridAutoFlow: "row",
     gap: 16,
 
     "> .typography": {
-        color: theme.pallette.neutral0,
+        color: theme.pallette.navy30,
     },
 });
 
@@ -45,7 +41,7 @@ export default function PlaylistPage(props: PlaylistPageProps) {
         a.click();
     };
 
-    console.log(image)
+    console.log(image);
     return (
         <Layout className={css(layoutRules)}>
             <PlaylistHero
@@ -61,12 +57,14 @@ export default function PlaylistPage(props: PlaylistPageProps) {
                 </Typography>
 
                 <Typography as="p" weight={300}>
-                    atualmente com <strong>{playlist.tracks.total}</strong>{" "}
-                    músicas
+                    com <strong>{playlist.tracks.total}</strong> músicas
                 </Typography>
             </PlaylistHero>
-            <Container as="section" className={css(listRules)}>
-                <Typography as="h3" variant="headline3"></Typography>
+            <Container as="section" className={css(contentRules)}>
+                <Typography as="h3" variant="headline3">
+                    Musícas
+                </Typography>
+                <TrackSection tracks={playlist.tracks} />
             </Container>
         </Layout>
     );

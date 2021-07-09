@@ -3,10 +3,17 @@ import { StyleFunction, useFela } from "react-fela";
 import classNames from "classnames";
 import { ColorKey, Theme } from "../../styles/Theme";
 
-type variantsType = "headline1" | "headline4" | "headline3" | "subtitle" | "body" | "button" | "caption";
+type variantsType =
+    | "headline1"
+    | "headline4"
+    | "headline3"
+    | "subtitle"
+    | "body"
+    | "button"
+    | "caption";
 type weightType = 300 | 500 | 700;
 
-interface TypographyProps extends HTMLAttributes<HTMLElement>{
+interface TypographyProps extends HTMLAttributes<HTMLElement> {
     as?: keyof React.ReactHTML;
     variant?: variantsType;
     weight?: weightType;
@@ -15,17 +22,16 @@ interface TypographyProps extends HTMLAttributes<HTMLElement>{
 }
 
 const typographyRules: StyleFunction<Theme, TypographyProps> = ({
-    weight,
     color,
     theme,
-}) => ({
-    className: "typography",
-    fontFamily: "Rubik, sans-serif",
-    letterSpacing: 0,
-    fontWeight: weight,
-    margin: 0,
-    color: color ? theme.pallette[color] : "inherit",
-});
+}) => {
+    return {
+        fontFamily: "Rubik, sans-serif",
+        letterSpacing: 0,
+        margin: 0,
+        color: color ? theme.pallette[color] : "inherit",
+    };
+};
 
 const headline1Rules: StyleFunction<{}, TypographyProps> = ({
     weight = 500,
@@ -60,7 +66,7 @@ const subtitleRules: StyleFunction<{}, TypographyProps> = ({
 });
 
 const bodyRules: StyleFunction<{}, TypographyProps> = ({ weight = 300 }) => ({
-    className: "body",
+    // className: "body",
     fontSize: 16,
     lineHeight: "24px",
     fontWeight: weight,
@@ -72,7 +78,9 @@ const buttonRules: StyleFunction<{}, TypographyProps> = ({ weight = 700 }) => ({
     fontWeight: weight,
 });
 
-const captionRules: StyleFunction<{}, TypographyProps> = ({ weight = 300 }) => ({
+const captionRules: StyleFunction<{}, TypographyProps> = ({
+    weight = 300,
+}) => ({
     fontSize: 12,
     lineHeight: "16px",
     fontWeight: weight,
@@ -85,7 +93,7 @@ const variantRuleMapper: Record<variantsType, StyleFunction<{}>> = {
     subtitle: subtitleRules,
     body: bodyRules,
     button: buttonRules,
-    caption: captionRules
+    caption: captionRules,
 };
 
 const Typography: FC<TypographyProps> = ({
