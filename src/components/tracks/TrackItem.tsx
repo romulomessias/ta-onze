@@ -23,9 +23,10 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
         gridAutoFlow: "row",
         gap: 8,
         height: "unset",
+        gridAutoColumns: '1fr',
 
         "> .audio-wrapper": {
-            justifySelf: "end",
+            justifySelf: "center",
         },
     },
 
