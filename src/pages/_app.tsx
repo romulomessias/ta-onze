@@ -1,19 +1,44 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import FelaProvider, { FelaProviderProps } from "../styles/FelaProvider";
+import { useRouter } from "next/router";
+import PageLoading from "../components/miscellaneous/PageLoading";
 
 export type IAppProps = AppProps & FelaProviderProps;
 
 const App: FC<IAppProps> = ({ Component, pageProps, renderer }) => {
+    const router = useRouter();
+
+    const [pageLoadingStatus, setPageLoadingStatus] = useState("default");
+
+    useEffect(() => {
+        const handleStart = () => setPageLoadingStatus("loading");
+
+        const handleComplete = () => {
+            setPageLoadingStatus("loaded");
+        };
+
+        router.events.on("routeChangeStart", handleStart);
+        router.events.on("routeChangeComplete", handleComplete);
+        router.events.on("routeChangeError", handleComplete);
+
+        return () => {
+            router.events.off("routeChangeStart", handleStart);
+            router.events.off("routeChangeComplete", handleComplete);
+            router.events.off("routeChangeError", handleComplete);
+        };
+    });
+
+    console.log({ pageLoadingStatus });
     return (
         <>
             <Head>
                 <title>Tá Onze!</title>
                 <link rel="shortcut icon" href="/logo.jpeg" />
                 <link rel="manifest" href="/manifest.json" />
-                <link rel="apple-touch-icon" href="/logo.jpeg"/>
-                <meta name="theme-color" content="#124666"/>
+                <link rel="apple-touch-icon" href="/logo.jpeg" />
+                <meta name="theme-color" content="#124666" />
                 <meta
                     name="viewport"
                     content="initial-scale=1.0, width=device-width"
@@ -25,6 +50,7 @@ const App: FC<IAppProps> = ({ Component, pageProps, renderer }) => {
                 />
             </Head>
             <FelaProvider renderer={renderer}>
+                <PageLoading status={pageLoadingStatus} />
                 <Component {...pageProps} />
             </FelaProvider>
         </>

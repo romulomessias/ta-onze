@@ -19,6 +19,16 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
     height: 70,
     transition: "all 0.2s",
 
+    [theme.breakpoint.small]: {
+        gridAutoFlow: "row",
+        gap: 8,
+        height: "unset",
+
+        "> .audio-wrapper": {
+            justifySelf: "end",
+        },
+    },
+
     "&.playing": {
         borderRightColor: theme.pallette.aqua20 + "",
     },
