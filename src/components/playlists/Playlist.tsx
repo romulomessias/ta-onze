@@ -3,6 +3,7 @@ import { StyleFunction, useFela } from "react-fela";
 import { Playlist as PlaylistModel } from "../../infra/models/playlist/Playlist";
 import { Theme } from "../../styles/Theme";
 import Button from "../buttons/Button";
+import { IF } from "../layouts/Condition";
 import Typography from "../typographies/Typography";
 
 interface PlaylistProps {
@@ -73,8 +74,9 @@ const genresRules: StyleFunction<Theme> = ({ theme }) => ({
 });
 
 const Playlist: FC<PlaylistProps> = ({ playlist }) => {
-    const [image] = playlist.images;
-    const [first, second, third] = playlist.genres;
+    const { images, genres = [] } = playlist;
+    const [image] = images;
+    const [first, second, third] = genres;
 
     const { css } = useFela<Theme>();
 
@@ -94,20 +96,31 @@ const Playlist: FC<PlaylistProps> = ({ playlist }) => {
                     {playlist.name}
                 </Typography>
                 <Typography>
-                    {playlist.description} Com{" "}
+                    {playlist.description}, com{" "}
                     <strong>{playlist.tracks.total}</strong> músicas
                 </Typography>
-                <section className={css(genresGroupRules)}>
-                    <Typography className={css(genresRules)} variant="caption">
-                        {first.name}
-                    </Typography>
-                    <Typography className={css(genresRules)} variant="caption">
-                        {second.name}
-                    </Typography>
-                    <Typography className={css(genresRules)} variant="caption">
-                        {third.name}
-                    </Typography>
-                </section>
+                <IF condition={genres.length > 0}>
+                    <section className={css(genresGroupRules)}>
+                        <Typography
+                            className={css(genresRules)}
+                            variant="caption"
+                        >
+                            {first.name}
+                        </Typography>
+                        <Typography
+                            className={css(genresRules)}
+                            variant="caption"
+                        >
+                            {second.name}
+                        </Typography>
+                        <Typography
+                            className={css(genresRules)}
+                            variant="caption"
+                        >
+                            {third.name}
+                        </Typography>
+                    </section>
+                </IF>
             </section>
             <Button variant="ghost" onClick={onButtonClick} color="light">
                 Abrir no Spotify
