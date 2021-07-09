@@ -12,6 +12,8 @@ type omitKeys =
     | "explicit"
     | "episode";
 
+const TableName = process.env.AWS_DYNAMO_TABLE_NAME ?? ''
+
 export const createPlaylist = (newPlaylist: PlaylistItem) => {
     const playlist: Playlist = {
         id: newPlaylist.id,
@@ -26,14 +28,14 @@ export const createPlaylist = (newPlaylist: PlaylistItem) => {
     };
 
     return dynamoClient.put({
-        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        TableName,
         Item: playlist,
     });
 };
 
 export async function getAll() {
     const { Items = [] } = await dynamoClient.getAll({
-        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        TableName,
     });
 
     return Items;
@@ -41,7 +43,7 @@ export async function getAll() {
 
 export async function getById(id: string) {
     const { Item } = await dynamoClient.get({
-        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        TableName,
         Key: {
             id,
         },
@@ -83,7 +85,7 @@ export async function updateTracks(id: string, tracks: TracksItem[]) {
     });
 
     return dynamoClient.update({
-        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        TableName,
         Key: {
             id,
         },
@@ -99,7 +101,7 @@ export async function updateTracks(id: string, tracks: TracksItem[]) {
 
 export async function updatePlaylistGenres(id: string, genres: object[]) {
     return dynamoClient.update({
-        TableName: process.env.AWS_DYNAMO_TABLE_NAME,
+        TableName,
         Key: {
             id,
         },
