@@ -98,6 +98,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             id: newPlaylist.id,
         });
 
+        console.log('save on dynamodb?');
         //save on dynamodb
         createPlaylist(updatedPlaylist).then(async (res) => {
             console.log("saved at dynamo", res);
