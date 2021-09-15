@@ -1,9 +1,9 @@
-import { tokenKey } from "./../../../infra/constants/redis";
+import { tokenKey } from "../../../../infra/constants/redis";
 import Redis from "ioredis";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getCurrentPlaylist } from "../../../services/spotify";
-import { getAll } from "../../../services/playlist";
+import { getCurrentPlaylist, getPlaylist } from "../../../../services/spotify";
+import { getAll } from "../../../../services/playlist";
 
 /**
  * get current playing music
@@ -27,17 +27,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             redis.disconnect();
         }
 
-        const [current, previous] = await Promise.all([
+        const highlightedPlaylists = await Promise.all([
             getCurrentPlaylist({
                 token: token!,
             }),
-            getAll(),
+            getPlaylist({
+                token: token!,
+                id: "3Pl7107XuONQ1CsQuzafeQ",
+            }),
         ]);
+
+        const [current, others] = highlightedPlaylists;
 
         res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
         res.status(200).send({
             current,
-            previous,
+            highlighted: highlightedPlaylists,
         });
     } catch (e) {
         console.log(e);

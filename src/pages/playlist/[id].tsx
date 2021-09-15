@@ -41,7 +41,6 @@ export default function PlaylistPage(props: PlaylistPageProps) {
         a.click();
     };
 
-    console.log(image);
     return (
         <Layout className={css(layoutRules)}>
             <PlaylistHero
@@ -72,14 +71,13 @@ export default function PlaylistPage(props: PlaylistPageProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.query;
-    console.log(id, `/api/playlists/${id}`);
+
     try {
         console.log;
         const { data } = await axios.get(`/api/playlist/${id}`, {
             baseURL: process.env.PUBLIC_URL,
         });
 
-        // console.log(data);
         return {
             props: {
                 playlist: data,

@@ -109,7 +109,11 @@ export default function Index({ current, previous = [] }: IndexProps) {
                     <section className={css(titleRules)}>
                         <Typography as="h1" variant="headline1">
                             Tá Onze
-                            <Typography as="span" color="aqua10" variant="headline1">
+                            <Typography
+                                as="span"
+                                color="aqua10"
+                                variant="headline1"
+                            >
                                 !
                             </Typography>
                         </Typography>
@@ -151,13 +155,19 @@ export default function Index({ current, previous = [] }: IndexProps) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
     try {
-        const { data } = await axios.get("/api/playlists", {
-            baseURL: process.env.PUBLIC_URL,
-        });
+        const [current, previous] = await Promise.all([
+            axios.get("/api/playlists/highlighted", {
+                baseURL: process.env.PUBLIC_URL,
+            }),
+            axios.get("/api/playlists/previous", {
+                baseURL: process.env.PUBLIC_URL,
+            }),
+        ]);
 
         return {
             props: {
-                ...data,
+                ...current.data,
+                ...previous.data,
             },
         };
     } catch (e) {

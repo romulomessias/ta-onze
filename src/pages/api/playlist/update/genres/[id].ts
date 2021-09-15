@@ -51,6 +51,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const uniqueUrls = [...new Set(artistsLinks)];
 
+        //todo: use some kind of queue here
         const artists: any[] = [];
         for (const url of uniqueUrls) {
             const { data } = await axios.get(url, config);
