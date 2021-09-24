@@ -62,12 +62,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             current,
             highlighted: [
                 mapHighlightedPlaylist(
-                    current,
-                    "A playlist quinzenal do time mais badalado da <strong>RV</strong>"
-                ),
-                mapHighlightedPlaylist(
                     other,
                     "Essa é uma playlist livre e colaborativa."
+                ),
+                mapHighlightedPlaylist(
+                    current,
+                    "A playlist quinzenal do time mais badalado da <strong>RV</strong>"
                 ),
             ],
         });
