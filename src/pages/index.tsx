@@ -117,11 +117,11 @@ export default function Index({ previous = [], highlighted = [] }: IndexProps) {
                             {
                                 resolve: autoplayPlugin,
                                 options: {
-                                    interval: 1500,
+                                    interval: 4000,
                                 },
                             },
                         ]}
-                        animationSpeed={1000}
+                        animationSpeed={1500}
                     >
                         {highlighted.map((playlist) => (
                             <HighlightedPlaylist
