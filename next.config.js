@@ -8,7 +8,7 @@ module.exports = {
     target: "serverless",
     webpack5: true,
     images: {
-        domains: ['mosaic.scdn.co'],
+        domains: ['mosaic.scdn.co', 'i.scdn.co'],
       },
     env: {
         SLACK_CLIENT_ID,

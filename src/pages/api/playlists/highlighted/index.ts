@@ -1,9 +1,27 @@
+import { HighlightPlaylist } from "./../../../../infra/models/playlist/Playlist";
 import { tokenKey } from "../../../../infra/constants/redis";
 import Redis from "ioredis";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getCurrentPlaylist, getPlaylist } from "../../../../services/spotify";
-import { getAll } from "../../../../services/playlist";
+
+import { PlaylistItem } from "../../../../infra/models/spotify/SpotifyPlaylist";
+
+const mapHighlightedPlaylist = (
+    playlist: PlaylistItem,
+    description: string
+): HighlightPlaylist => {
+    const { tracks, images, external_urls } = playlist;
+    const [image] = images;
+
+    return {
+        name: playlist.name,
+        imageUrl: image?.url,
+        description,
+        tracks,
+        spotifyUrl: external_urls.spotify,
+    };
+};
 
 /**
  * get current playing music
@@ -37,12 +55,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }),
         ]);
 
-        const [current, others] = highlightedPlaylists;
+        const [current, other] = highlightedPlaylists;
 
         res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
         res.status(200).send({
             current,
-            highlighted: highlightedPlaylists,
+            highlighted: [
+                mapHighlightedPlaylist(
+                    current,
+                    "A playlist quinzenal do time mais badalado da <strong>RV</strong>"
+                ),
+                mapHighlightedPlaylist(
+                    other,
+                    "Hello this is a test description"
+                ),
+            ],
         });
     } catch (e) {
         console.log(e);

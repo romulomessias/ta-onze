@@ -1,48 +1,29 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import Image from "next/image";
-import { useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { StyleFunction, useFela } from "react-fela";
-import Button from "../components/buttons/Button";
+import { IF } from "../components/layouts/Condition";
 
 import Container from "../components/layouts/Container";
 import Layout from "../components/layouts/Layout";
 import Playlist from "../components/playlists/Playlist";
+import PlaylistHero from "../components/playlists/PlaylistHero";
 import Typography from "../components/typographies/Typography";
-import { Playlist as PlaylistModel } from "../infra/models/playlist/Playlist";
+import {
+    HighlightPlaylist,
+    Playlist as PlaylistModel,
+} from "../infra/models/playlist/Playlist";
 import { PlaylistItem } from "../infra/models/spotify/SpotifyPlaylist";
 import { Theme } from "../styles/Theme";
+import Carousel from "@brainhubeu/react-carousel";
+import "@brainhubeu/react-carousel/lib/style.css";
+
+const highlightedPlaylist: StyleFunction<Theme> = () => ({
+    width: "100%",
+});
 
 const heroRules: StyleFunction<Theme> = ({ theme }) => ({
-    display: "grid",
-    gridAutoFlow: "column",
-    justifyContent: "flex-start",
-    gridTemplateColumns: "max-content 1fr 210px",
-    alignItems: "center",
-    gap: 32,
-    color: theme.pallette.neutral0,
-    [theme.breakpoint.small]: {
-        gridAutoFlow: "row",
-        gridTemplateColumns: "auto",
-        gap: 16,
-    },
-    "> .button ": {
-        marginLeft: "auto",
-    },
-});
-
-const headerRules: StyleFunction<Theme> = ({ theme }) => ({
     backgroundColor: theme.pallette.navy30,
-    paddingTop: 24,
-    paddingBottom: 24,
-});
-
-const titleRules: StyleFunction<Theme> = () => ({
-    borderRadius: 8,
-});
-
-const logoRules: StyleFunction<Theme> = () => ({
-    borderRadius: 8,
 });
 
 const layoutRules: StyleFunction<Theme> = () => ({
@@ -58,21 +39,51 @@ const listRules: StyleFunction<Theme> = () => ({
 interface IndexProps {
     current: PlaylistItem;
     previous: PlaylistModel[];
+    highlighted: HighlightPlaylist[];
 }
 
-export default function Index({ current, previous = [] }: IndexProps) {
-    const { css } = useFela<Theme>();
+interface HighlightProps {
+    playlist: HighlightPlaylist;
+}
 
-    const onButtonClick = () => {
-        if (!current) {
+const HighlightedPlaylist: FC<HighlightProps> = ({ playlist }) => {
+    const { css } = useFela<Theme>();
+    const handleHeroButtonClick = () => {
+        if (!playlist) {
             alert("Sorry! Não deu pra abrir a playlist :(");
         }
         const a = document.createElement("a");
-        a.href = current.external_urls.spotify;
+        a.href = playlist.spotifyUrl;
         a.target = "_black";
 
         a.click();
     };
+    return (
+        <PlaylistHero
+            className={css(highlightedPlaylist)}
+            logoUrl={playlist.imageUrl}
+            primaryButtonAction={handleHeroButtonClick}
+            primaryButtonLabel="Abrir no spotify"
+        >
+            <Typography as="h1" variant="headline1">
+                {playlist.name}
+            </Typography>
+            <Typography as="p" variant="subtitle" weight={300}>
+                <span
+                    dangerouslySetInnerHTML={{ __html: playlist.description }}
+                />
+            </Typography>
+
+            <Typography as="p" weight={300}>
+                com <strong>{playlist.tracks.total}</strong> músicas
+            </Typography>
+        </PlaylistHero>
+    );
+};
+
+export default function Index({ previous = [], highlighted = [] }: IndexProps) {
+    const { css } = useFela<Theme>();
+    const [didMount, setDidMount] = useState(false);
 
     useEffect(() => {
         if ("serviceWorker" in navigator) {
@@ -93,13 +104,23 @@ export default function Index({ current, previous = [] }: IndexProps) {
                 );
             });
         }
+        setDidMount(true);
     }, []);
 
     return (
         <Layout className={css(layoutRules)}>
-            <header className={css(headerRules)}>
-                <Container className={css(heroRules)}>
-                    <Image
+            <section className={css(heroRules)}>
+                <IF condition={didMount}>
+                    <Carousel>
+                        {highlighted.map((playlist) => (
+                            <HighlightedPlaylist
+                                key={playlist.name}
+                                playlist={playlist}
+                            />
+                        ))}
+                    </Carousel>
+                </IF>
+                {/* <Image
                         src="/logo.jpeg"
                         height={172}
                         width={172}
@@ -134,9 +155,8 @@ export default function Index({ current, previous = [] }: IndexProps) {
                         )}
                     </section>
 
-                    <Button onClick={onButtonClick}>Abrir no Spotify</Button>
-                </Container>
-            </header>
+                    <Button onClick={onButtonClick}>Abrir no Spotify</Button> */}
+            </section>
             <Container as="section" className={css(listRules)}>
                 <Typography as="h3" variant="headline3" color="neutral0">
                     Playlists anteriores
@@ -173,9 +193,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     } catch (e) {
         console.log(e);
         console.log("deu ruim");
+        return {
+            props: {},
+        };
     }
-
-    return {
-        props: {},
-    };
 };

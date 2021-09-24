@@ -4,6 +4,7 @@ import Image from "next/image";
 import Button from "../../components/buttons/Button";
 import Container from "../../components/layouts/Container";
 import { Theme } from "../../styles/Theme";
+import classNames from "classnames";
 
 const heroRules: StyleFunction<Theme> = ({ theme }) => ({
     display: "grid",
@@ -50,18 +51,20 @@ interface PlaylistHeroProps {
     logoUrl: string;
     primaryButtonLabel: string;
     primaryButtonAction: MouseEventHandler<any>;
+    className?: string;
 }
 
 const PlaylistHero: FC<PlaylistHeroProps> = ({
+    className,
     children,
     logoUrl,
     primaryButtonAction,
     primaryButtonLabel,
 }) => {
     const { css } = useFela<Theme>();
-    console.log(css(logoRules));
+    const rootClass = classNames(css(headerRules), className);
     return (
-        <header className={css(headerRules)}>
+        <header className={rootClass}>
             <Container className={css(heroRules)}>
                 <Image
                     src={logoUrl}

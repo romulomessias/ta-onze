@@ -97,3 +97,12 @@ export interface Image {
     url: string;
     width: number;
 }
+
+
+export interface HighlightPlaylist {
+    name: string,
+    imageUrl: string,
+    description: string,
+    tracks: Tracks;
+    spotifyUrl: string;
+}
