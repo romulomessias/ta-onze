@@ -15,7 +15,7 @@ import {
 } from "../infra/models/playlist/Playlist";
 import { PlaylistItem } from "../infra/models/spotify/SpotifyPlaylist";
 import { Theme } from "../styles/Theme";
-import Carousel from "@brainhubeu/react-carousel";
+import Carousel, { autoplayPlugin } from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
 
 const highlightedPlaylist: StyleFunction<Theme> = () => ({
@@ -111,7 +111,18 @@ export default function Index({ previous = [], highlighted = [] }: IndexProps) {
         <Layout className={css(layoutRules)}>
             <section className={css(heroRules)}>
                 <IF condition={didMount}>
-                    <Carousel>
+                    <Carousel
+                        plugins={[
+                            "infinite",
+                            {
+                                resolve: autoplayPlugin,
+                                options: {
+                                    interval: 1500,
+                                },
+                            },
+                        ]}
+                        animationSpeed={1000}
+                    >
                         {highlighted.map((playlist) => (
                             <HighlightedPlaylist
                                 key={playlist.name}
