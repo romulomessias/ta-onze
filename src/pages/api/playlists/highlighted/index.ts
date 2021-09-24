@@ -67,7 +67,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 ),
                 mapHighlightedPlaylist(
                     other,
-                    "Hello this is a test description"
+                    "Essa é uma playlist livre e colaborativa."
                 ),
             ],
         });
