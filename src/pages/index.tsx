@@ -120,42 +120,6 @@ export default function Index({ previous = [], highlighted = [] }: IndexProps) {
                         ))}
                     </Carousel>
                 </IF>
-                {/* <Image
-                        src="/logo.jpeg"
-                        height={172}
-                        width={172}
-                        layout="fixed"
-                        className={css(logoRules)}
-                    />
-                    <section className={css(titleRules)}>
-                        <Typography as="h1" variant="headline1">
-                            Tá Onze
-                            <Typography
-                                as="span"
-                                color="aqua10"
-                                variant="headline1"
-                            >
-                                !
-                            </Typography>
-                        </Typography>
-                        <Typography as="p" variant="subtitle" weight={300}>
-                            A playlist quinzenal do time mais badalado da{" "}
-                            <strong>RV</strong>
-                        </Typography>
-
-                        {current && (
-                            <Typography
-                                as="p"
-                                weight={300}
-                                style={{ marginTop: 8 }}
-                            >
-                                atualmente com{" "}
-                                <strong>{current.tracks.total}</strong> músicas
-                            </Typography>
-                        )}
-                    </section>
-
-                    <Button onClick={onButtonClick}>Abrir no Spotify</Button> */}
             </section>
             <Container as="section" className={css(listRules)}>
                 <Typography as="h3" variant="headline3" color="neutral0">
