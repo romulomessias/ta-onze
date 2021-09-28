@@ -14,7 +14,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const {
             Items = [],
-            Count,
             LastEvaluatedKey,
         } = await getAll();
         let previous = Items;
