@@ -1,8 +1,4 @@
-// import { tokenKey } from "../../../../infra/constants/redis";
-// import Redis from "ioredis";
-// import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-// import { getCurrentPlaylist, getPlaylist } from "../../../../services/spotify";
 import { getAll } from "../../../../services/playlist";
 
 /**
@@ -16,9 +12,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const previous = await getAll();
+        const {
+            Items = [],
+            Count,
+            LastEvaluatedKey,
+            ...others
+        } = await getAll();
+        let previous = Items;
+        let lastEvaluatedKey = LastEvaluatedKey;
 
-        res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
+        while (lastEvaluatedKey !== undefined) {
+            const { Items = [], LastEvaluatedKey } = await getAll(
+                lastEvaluatedKey
+            );
+            previous = [...previous, ...Items];
+            lastEvaluatedKey = LastEvaluatedKey;
+            console.log("previous.length", previous.length, lastEvaluatedKey);
+        }
+
+        // res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
         res.status(200).send({
             previous,
         });

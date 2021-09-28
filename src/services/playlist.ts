@@ -4,6 +4,7 @@ import {
     TracksItem,
 } from "./../infra/models/spotify/SpotifyPlaylist";
 import dynamoClient from "../../lib/dynamodb";
+import { Key } from "aws-sdk/clients/dynamodb";
 
 type omitKeys =
     | "available_markets"
@@ -12,7 +13,7 @@ type omitKeys =
     | "explicit"
     | "episode";
 
-const TableName = process.env.AWS_DYNAMO_TABLE_NAME ?? ''
+const TableName = process.env.AWS_DYNAMO_TABLE_NAME ?? "";
 
 export const createPlaylist = (newPlaylist: PlaylistItem) => {
     const playlist: Playlist = {
@@ -33,12 +34,14 @@ export const createPlaylist = (newPlaylist: PlaylistItem) => {
     });
 };
 
-export async function getAll() {
-    const { Items = [] } = await dynamoClient.getAll({
+export async function getAll(exclusiveStartKey?: Key) {
+    console.log(TableName, exclusiveStartKey);
+    const result = await dynamoClient.getAll({
         TableName,
+        ExclusiveStartKey: exclusiveStartKey,
     });
 
-    return Items;
+    return result;
 }
 
 export async function getById(id: string) {
