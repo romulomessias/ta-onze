@@ -16,7 +16,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             Items = [],
             Count,
             LastEvaluatedKey,
-            ...others
         } = await getAll();
         let previous = Items;
         let lastEvaluatedKey = LastEvaluatedKey;
@@ -30,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             console.log("previous.length", previous.length, lastEvaluatedKey);
         }
 
-        // res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
+        res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
         res.status(200).send({
             previous,
         });
