@@ -24,8 +24,10 @@ resource "aws_dynamodb_table" "ta-onze" {
 }
 
 resource "aws_dynamodb_table" "ta-onze-playlists-analisys" {
-  name     = "TaOnzePlaylistsAnalisys"
-  hash_key = "PlaylistId"
+  name           = "TaOnzePlaylistsAnalisys"
+  read_capacity  = 20
+  write_capacity = 20
+  hash_key       = "PlaylistId"
 
   attribute {
     name = "PlaylistId"
