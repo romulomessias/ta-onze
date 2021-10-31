@@ -23,6 +23,22 @@ resource "aws_dynamodb_table" "ta-onze" {
   }
 }
 
+resource "aws_dynamodb_table" "ta-onze-status" {
+  name         = "TaOnzeInfo"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "Key"
+
+  attribute {
+    name = "Key"
+    type = "S"
+  }
+
+  ttl {
+    attribute_name = "TimeToLive"
+    enabled        = true
+  }
+}
+
 resource "aws_dynamodb_table" "ta-onze-playlists-analisys" {
   name           = "TaOnzePlaylistsAnalisys"
   read_capacity  = 20
