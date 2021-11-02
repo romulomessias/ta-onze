@@ -10,6 +10,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getCurrentPlaylist } from "../../../services/spotify";
+import { getByToken } from "../../../services/general";
 
 /**
  * get token
@@ -25,11 +26,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const redis = new Redis(process.env.REDIS_AUTH);
         await redis.ping("hello");
 
-        let token = await redis.get(tokenKey);
+        let token = await getByToken(tokenKey);
+
         if (!token) {
-            await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
-            token = await redis.get(tokenKey);
-            redis.disconnect();
+            token = await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
         }
 
         const currentSprint = await redis.get(currentSprintKey);
@@ -45,13 +45,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const config: AxiosRequestConfig = {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token.Value}`,
                 "Content-Type": "application/json",
             },
         };
 
         const currentPlaylist = await getCurrentPlaylist({
-            token: token!,
+            token: token.Value,
         });
 
         let next: string | null = currentPlaylist.tracks.next;
@@ -94,7 +94,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const updatedPlaylist = await getPlaylist({
-            token: token!,
+            token: token.Value,
             id: newPlaylist.id,
         });
 

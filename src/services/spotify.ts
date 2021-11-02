@@ -88,7 +88,7 @@ export const getPlaylist = async (
 
         return data;
     } catch (e) {
-        console.error("cound not get playlists");
+        console.error("cound not get playlist", params);
         throw e;
     }
 };

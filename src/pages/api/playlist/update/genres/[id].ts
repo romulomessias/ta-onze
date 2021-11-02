@@ -6,6 +6,7 @@ import {
     getById,
     updatePlaylistGenres,
 } from "../../../../../services/playlist";
+import { getByToken } from "../../../../../services/general";
 
 /**
  * get token
@@ -24,21 +25,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const redis = new Redis(process.env.REDIS_AUTH);
-        await redis.ping("hello");
-
-        let token = await redis.get(tokenKey);
+        let token = await getByToken(tokenKey);
 
         if (!token) {
-            await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
-            token = await redis.get(tokenKey);
+            token = await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
         }
-
-        redis.disconnect();
 
         const config: AxiosRequestConfig = {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token.Value}`,
                 "Content-Type": "application/json",
             },
         };

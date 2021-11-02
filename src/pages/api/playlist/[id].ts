@@ -17,17 +17,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        // const redis = new Redis(process.env.REDIS_AUTH);
-        // await redis.ping("hello");
-
-        // let token = await redis.get(tokenKey);
-
-        // if (!token) {
-        //     await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
-        //     token = await redis.get(tokenKey);
-        //     redis.disconnect();
-        // }
-
         const playlist = await getById(id as string);
 
         res.status(200).send(playlist);

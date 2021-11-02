@@ -26,15 +26,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         `scope=${encodeURIComponent(scopes.join(" "))}`,
     ];
 
-    console.log(
-        "signin",
-        { params },
-        "https://accounts.spotify.com/authorize?" + params.join("&")
-    );
-
     const url = "https://accounts.spotify.com/authorize?" + params.join("&");
 
-    console.log({ url });
     res.writeHead(301, {
         Location: url,
     });

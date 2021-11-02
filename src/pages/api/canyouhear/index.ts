@@ -1,7 +1,8 @@
-import { tokenKey, refreshTokenKey } from './../../../infra/constants/redis';
+import { tokenKey, refreshTokenKey } from "./../../../infra/constants/redis";
 import { getSpotifyRefreshedToken } from "./../../../services/spotify";
 import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getByToken, updateSpotifyToken } from "../../../services/general";
 
 /**
  * get token from redis
@@ -14,27 +15,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const redis = new Redis(process.env.REDIS_AUTH);
-        await redis.ping("hello");
-
-        const token = await redis.get(tokenKey);
+        const token = await getByToken(tokenKey);
 
         if (token) {
             res.status(200).send({ hasPermission: true });
         } else {
-            const refresh = (await redis.get(refreshTokenKey))!;
+            const refresh = (await getByToken(refreshTokenKey))!;
 
             if (!refresh) {
                 throw "No refresh token";
             }
 
-            const token = await getSpotifyRefreshedToken(refresh);
-            redis.set(tokenKey, token.play, "EX", token.time);
-            redis.disconnect();
+            const token = await getSpotifyRefreshedToken(refresh.Value);
+
+            updateSpotifyToken({
+                Key: tokenKey,
+                Value: token.play,
+                TimeToLive: Math.floor(Date.now() / 1000) + token.time,
+            });
+
             res.status(200).send({ hasPermission: true });
         }
     } catch (e) {
         // console.log(e);
-        res.status(200).send({ hasPermission: false });
+        res.status(200).send({ hasPermission: false, e });
     }
 };

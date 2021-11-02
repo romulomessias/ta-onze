@@ -13,9 +13,12 @@ type omitKeys =
     | "explicit"
     | "episode";
 
-const TableName = process.env.AWS_DYNAMO_TABLE_NAME ?? "";
+const defaultTableName = "TaOnze";
 
-export const createPlaylist = (newPlaylist: PlaylistItem) => {
+export const createPlaylist = (
+    newPlaylist: PlaylistItem,
+    TableName: string = defaultTableName
+) => {
     const playlist: Playlist = {
         id: newPlaylist.id,
         name: newPlaylist.name,
@@ -34,7 +37,10 @@ export const createPlaylist = (newPlaylist: PlaylistItem) => {
     });
 };
 
-export async function getAll(exclusiveStartKey?: Key) {
+export async function getAll(
+    exclusiveStartKey?: Key,
+    TableName: string = defaultTableName
+) {
     console.log(TableName, exclusiveStartKey);
     const result = await dynamoClient.getAll({
         TableName,
@@ -44,7 +50,10 @@ export async function getAll(exclusiveStartKey?: Key) {
     return result;
 }
 
-export async function getById(id: string) {
+export async function getById(
+    id: string,
+    TableName: string = defaultTableName
+) {
     const { Item } = await dynamoClient.get({
         TableName,
         Key: {
@@ -55,7 +64,11 @@ export async function getById(id: string) {
     return Item as Playlist;
 }
 
-export async function updateTracks(id: string, tracks: TracksItem[]) {
+export async function updateTracks(
+    id: string,
+    tracks: TracksItem[],
+    TableName: string = defaultTableName
+) {
     const mapped = tracks.map((it) => {
         const { primary_color, video_thumbnail, is_local, ...rest } = it;
         const {
@@ -102,7 +115,11 @@ export async function updateTracks(id: string, tracks: TracksItem[]) {
     });
 }
 
-export async function updatePlaylistGenres(id: string, genres: object[]) {
+export async function updatePlaylistGenres(
+    id: string,
+    genres: object[],
+    TableName: string = defaultTableName
+) {
     return dynamoClient.update({
         TableName,
         Key: {

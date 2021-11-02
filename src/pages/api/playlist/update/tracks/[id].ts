@@ -2,9 +2,9 @@ import { Tracks } from "./../../../../../infra/models/spotify/SpotifyPlaylist";
 import { getPlaylist } from "./../../../../../services/spotify";
 import { tokenKey } from "./../../../../../infra/constants/redis";
 import axios, { AxiosRequestConfig } from "axios";
-import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
 import { updateTracks } from "../../../../../services/playlist";
+import { getByToken } from "../../../../../services/general";
 
 /**
  * get token
@@ -23,15 +23,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const redis = new Redis(process.env.REDIS_AUTH);
-        await redis.ping("hello");
-
-        let token = await redis.get(tokenKey);
+        let token = await getByToken(tokenKey);
 
         if (!token) {
-            await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
-            token = await redis.get(tokenKey);
-            redis.disconnect();
+            token = await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
         }
 
         const config: AxiosRequestConfig = {
@@ -43,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const [spotifyPlaylist] = await Promise.all([
             getPlaylist({
-                token: token!,
+                token: token.Value,
                 id: id as string,
             }),
         ]);

@@ -1,8 +1,8 @@
-// import Redis from "ioredis";
 import cookie from "cookie";
-// import { tokenKey, refreshTokenKey } from "./../../../infra/constants/redis";
 import { NextApiRequest, NextApiResponse } from "next";
+import { refreshTokenKey, tokenKey } from "../../../infra/constants/redis";
 import { SpotifyToken } from "../../../infra/models/spotify/SpotifyToken";
+import { updateSpotifyToken } from "../../../services/general";
 import { getSpotifyToken } from "./../../../services/spotify";
 
 /**
@@ -33,15 +33,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         if (token) {
-            // const redis = new Redis(process.env.REDIS_AUTH);
-            // await redis.ping("hello");
+            updateSpotifyToken({
+                Key: tokenKey,
+                Value: token.play,
+                TimeToLive: Math.floor(Date.now() / 1000) + token.time,
+            });
 
-            // await redis
-            //     .multi()
-            //     .set(tokenKey, token.play, "EX", token.time)
-            //     .set(refreshTokenKey, token.replay!)
-            //     .exec();
-            // redis.disconnect();
+            updateSpotifyToken({
+                Key: refreshTokenKey,
+                Value: token.play,
+            });
 
             res.setHeader(
                 "Set-Cookie",

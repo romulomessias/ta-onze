@@ -1,11 +1,11 @@
 import { HighlightPlaylist } from "./../../../../infra/models/playlist/Playlist";
 import { tokenKey } from "../../../../infra/constants/redis";
-import Redis from "ioredis";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getCurrentPlaylist, getPlaylist } from "../../../../services/spotify";
 
 import { PlaylistItem } from "../../../../infra/models/spotify/SpotifyPlaylist";
+import { getByToken } from "../../../../services/general";
 
 const mapHighlightedPlaylist = (
     playlist: PlaylistItem,
@@ -34,23 +34,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const redis = new Redis(process.env.REDIS_AUTH);
-        await redis.ping("hello");
-
-        let token = await redis.get(tokenKey);
+        let token = await getByToken(tokenKey);
 
         if (!token) {
-            await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
-            token = await redis.get(tokenKey);
-            redis.disconnect();
+            token = await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
         }
 
         const highlightedPlaylists = await Promise.all([
             getCurrentPlaylist({
-                token: token!,
+                token: token!.Value,
             }),
             getPlaylist({
-                token: token!,
+                token: token!.Value,
                 id: "3Pl7107XuONQ1CsQuzafeQ",
             }),
         ]);

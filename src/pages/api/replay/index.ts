@@ -1,7 +1,8 @@
-import { refreshTokenKey, tokenKey } from './../../../infra/constants/redis';
+import { refreshTokenKey, tokenKey } from "./../../../infra/constants/redis";
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import Redis from "ioredis";
+import { getByToken, updateSpotifyToken } from "../../../services/general";
 
 const refreshToken = async (
     refresh_token: string
@@ -43,15 +44,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const redis = new Redis(process.env.REDIS_AUTH);
-        await redis.ping("hello");
+        const refresh = (await getByToken(refreshTokenKey))!;
+        const token = await refreshToken(refresh.Value);
 
-        const refresh = (await redis.get(refreshTokenKey))!;
-        const token = await refreshToken(refresh);
+        const refreshedToken = {
+            Key: "playOnze",
+            Value: token.play,
+            TimeToLive: Math.floor(Date.now() / 1000) + token.time,
+        };
 
-        redis.set(tokenKey, token.play, "EX", token.time);
-        redis.disconnect();
-        res.status(200).send("token refreshed");
+        updateSpotifyToken(refreshedToken);
+
+        res.status(200).send({ toke: refreshedToken });
     } catch (e) {
         console.log(e);
         res.status(500).send(e);
