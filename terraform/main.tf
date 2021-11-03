@@ -23,18 +23,18 @@ resource "aws_dynamodb_table" "ta-onze" {
   }
 }
 
-resource "aws_dynamodb_table" "ta-onze-status" {
+resource "aws_dynamodb_table" "ta-onze-info" {
   name         = "TaOnzeInfo"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "Key"
+  hash_key     = "key"
 
   attribute {
-    name = "Key"
+    name = "key"
     type = "S"
   }
 
   ttl {
-    attribute_name = "TimeToLive"
+    attribute_name = "timeToLive"
     enabled        = true
   }
 }
@@ -43,10 +43,10 @@ resource "aws_dynamodb_table" "ta-onze-playlists-analisys" {
   name           = "TaOnzePlaylistsAnalisys"
   read_capacity  = 20
   write_capacity = 20
-  hash_key       = "PlaylistId"
+  hash_key       = "playlistId"
 
   attribute {
-    name = "PlaylistId"
+    name = "playlistId"
     type = "S"
   }
 

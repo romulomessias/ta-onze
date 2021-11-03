@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const [spotifyPlaylist] = await Promise.all([
             getPlaylist({
-                token: token.Value,
+                token: token.value,
                 id: id as string,
             }),
         ]);

@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const config: AxiosRequestConfig = {
             headers: {
-                Authorization: `Bearer ${token.Value}`,
+                Authorization: `Bearer ${token.value}`,
                 "Content-Type": "application/json",
             },
         };

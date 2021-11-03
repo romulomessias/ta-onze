@@ -4,14 +4,14 @@ import dynamoClient from "./dynamodb";
 const TableName = "TaOnzeInfo";
 
 interface Token {
-    TimeToLive?: number;
-    Key: string;
-    Value: string;
+    timeToLive?: number;
+    key: string;
+    value: string;
 }
 
 interface SprintNumber {
-    Key: string;
-    Value: number;
+    key: string;
+    value: number;
 }
 
 export const updateSpotifyToken = (token: Token) => {
@@ -25,7 +25,7 @@ export async function getByToken(token: string) {
     const { Item } = await dynamoClient.get({
         TableName,
         Key: {
-            Key: token,
+            key: token,
         },
     });
 
@@ -36,7 +36,7 @@ export async function getCurrentSprint() {
     const { Item } = await dynamoClient.get({
         TableName,
         Key: {
-            Key: currentSprintKey,
+            key: currentSprintKey,
         },
     });
 
@@ -47,8 +47,8 @@ export async function updateCurrentSprint(value: number) {
     return dynamoClient.put({
         TableName,
         Item: {
-            Key: currentSprintKey,
-            Value: value,
+            key: currentSprintKey,
+            value: value,
         },
     });
 }

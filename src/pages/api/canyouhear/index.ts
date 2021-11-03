@@ -25,12 +25,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 throw "No refresh token";
             }
 
-            const token = await getSpotifyRefreshedToken(refresh.Value);
+            const token = await getSpotifyRefreshedToken(refresh.value);
 
             updateSpotifyToken({
-                Key: tokenKey,
-                Value: token.play,
-                TimeToLive: Math.floor(Date.now() / 1000) + token.time,
+                key: tokenKey,
+                value: token.play,
+                timeToLive: Math.floor(Date.now() / 1000) + token.time,
             });
 
             res.status(200).send({ hasPermission: true });

@@ -44,12 +44,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const refresh = (await getByToken(refreshTokenKey))!;
-        const token = await refreshToken(refresh.Value);
+        const token = await refreshToken(refresh.value);
 
         const refreshedToken = {
-            Key: "playOnze",
-            Value: token.play,
-            TimeToLive: Math.floor(Date.now() / 1000) + token.time,
+            key: "playOnze",
+            value: token.play,
+            timeToLive: Math.floor(Date.now() / 1000) + token.time,
         };
 
         updateSpotifyToken(refreshedToken);

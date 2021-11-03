@@ -42,10 +42,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const highlightedPlaylists = await Promise.all([
             getCurrentPlaylist({
-                token: token!.Value,
+                token: token!.value,
             }),
             getPlaylist({
-                token: token!.Value,
+                token: token!.value,
                 id: "3Pl7107XuONQ1CsQuzafeQ",
             }),
         ]);

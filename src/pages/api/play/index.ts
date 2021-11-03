@@ -34,14 +34,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         if (token) {
             updateSpotifyToken({
-                Key: tokenKey,
-                Value: token.play,
-                TimeToLive: Math.floor(Date.now() / 1000) + token.time,
+                key: tokenKey,
+                value: token.play,
+                timeToLive: Math.floor(Date.now() / 1000) + token.time,
             });
 
             updateSpotifyToken({
-                Key: refreshTokenKey,
-                Value: token.play,
+                key: refreshTokenKey,
+                value: token.play,
             });
 
             res.setHeader(

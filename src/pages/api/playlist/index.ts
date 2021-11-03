@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const currentSprint = await getCurrentSprint();
-        const updatedSprint = currentSprint.Value + 1;
+        const updatedSprint = currentSprint.value + 1;
 
         const userId = "12144153509";
         const createPlaylistPayload = {
@@ -44,13 +44,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const config: AxiosRequestConfig = {
             headers: {
-                Authorization: `Bearer ${token.Value}`,
+                Authorization: `Bearer ${token.value}`,
                 "Content-Type": "application/json",
             },
         };
 
         const currentPlaylist = await getCurrentPlaylist({
-            token: token.Value,
+            token: token.value,
         });
 
         let next: string | null = currentPlaylist.tracks.next;
@@ -93,7 +93,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const updatedPlaylist = await getPlaylist({
-            token: token.Value,
+            token: token.value,
             id: newPlaylist.id,
         });
 
