@@ -1,7 +1,6 @@
-import { refreshTokenKey, tokenKey } from "./../../../infra/constants/redis";
+import { refreshTokenKey } from "./../../../infra/constants/redis";
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import Redis from "ioredis";
 import { getByToken, updateSpotifyToken } from "../../../services/general";
 
 const refreshToken = async (

@@ -5,12 +5,15 @@ import {
     Tracks,
 } from "./../../../infra/models/spotify/SpotifyPlaylist";
 import { playlistName } from "./../../../infra/constants/spotify";
-import { tokenKey, currentSprintKey } from "./../../../infra/constants/redis";
+import { tokenKey } from "./../../../infra/constants/redis";
 import axios, { AxiosRequestConfig } from "axios";
-import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getCurrentPlaylist } from "../../../services/spotify";
-import { getByToken } from "../../../services/general";
+import {
+    getByToken,
+    getCurrentSprint,
+    updateCurrentSprint,
+} from "../../../services/general";
 
 /**
  * get token
@@ -23,23 +26,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const redis = new Redis(process.env.REDIS_AUTH);
-        await redis.ping("hello");
-
         let token = await getByToken(tokenKey);
 
         if (!token) {
             token = await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
         }
 
-        const currentSprint = await redis.get(currentSprintKey);
-        redis.set(currentSprintKey, parseInt(currentSprint!) + 1);
-        redis.disconnect();
+        const currentSprint = await getCurrentSprint();
+        const updatedSprint = currentSprint.Value + 1;
 
         const userId = "12144153509";
         const createPlaylistPayload = {
-            name: `${playlistName} Vol. ${parseInt(currentSprint!) + 1}`,
-            description: `Playlist da sprint ${parseInt(currentSprint!) + 1}`,
+            name: `${playlistName} Vol. ${updatedSprint}`,
+            description: `Playlist da sprint ${updatedSprint}`,
             public: true,
         };
 
@@ -120,6 +119,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         //     );
         // }
 
+        updateCurrentSprint(updatedSprint);
         res.status(201).send(updatedPlaylist);
     } catch (e) {
         res.status(500).send(e);

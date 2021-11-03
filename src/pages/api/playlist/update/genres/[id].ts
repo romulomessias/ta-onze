@@ -1,6 +1,5 @@
 import { tokenKey } from "./../../../../../infra/constants/redis";
 import axios, { AxiosRequestConfig } from "axios";
-import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     getById,

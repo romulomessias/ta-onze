@@ -1,6 +1,5 @@
 import { tokenKey, refreshTokenKey } from "./../../../infra/constants/redis";
 import { getSpotifyRefreshedToken } from "./../../../services/spotify";
-import Redis from "ioredis";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getByToken, updateSpotifyToken } from "../../../services/general";
 
