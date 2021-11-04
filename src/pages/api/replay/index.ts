@@ -54,7 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         updateSpotifyToken(refreshedToken);
 
-        res.status(200).send({ toke: refreshedToken });
+        res.status(200).send({ token: refreshedToken });
     } catch (e) {
         console.log(e);
         res.status(500).send(e);

@@ -29,7 +29,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         let token = await getByToken(tokenKey);
 
         if (!token) {
-            token = await axios.get(`${process.env.PUBLIC_URL}/api/replay`);
+            const response = await axios.get(
+                `${process.env.PUBLIC_URL}/api/replay`
+            );
+            token = response.data.token;
         }
 
         const currentSprint = await getCurrentSprint();
