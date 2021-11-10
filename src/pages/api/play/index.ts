@@ -55,6 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 })
             );
             res.redirect(`${process.env.PUBLIC_URL}/spotiplay`);
+            // res.send(token);
         }
     } catch (e) {
         console.log(e);

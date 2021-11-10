@@ -119,19 +119,19 @@ const Playlist: FC<PlaylistProps> = ({ playlist }) => {
                             className={css(genresRules)}
                             variant="caption"
                         >
-                            {first.name}
+                            {first?.name}
                         </Typography>
                         <Typography
                             className={css(genresRules)}
                             variant="caption"
                         >
-                            {second.name}
+                            {second?.name}
                         </Typography>
                         <Typography
                             className={css(genresRules)}
                             variant="caption"
                         >
-                            {third.name}
+                            {third?.name}
                         </Typography>
                     </section>
                 </IF>
