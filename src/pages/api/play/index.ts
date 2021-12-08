@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
             updateSpotifyToken({
                 key: refreshTokenKey,
-                value: token.play,
+                value: token.replay!,
             });
 
             res.setHeader(
