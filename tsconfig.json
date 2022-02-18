@@ -7,7 +7,7 @@
       "dom",
       "es6",
       "es2019",
-      "dom.Iterable",
+      "dom.Iterable"
     ],
     "declaration": true,
     "allowJs": true,
@@ -28,6 +28,7 @@
     ],
     "inlineSourceMap": true,
     "inlineSources": true,
+    "incremental": true
   },
   "exclude": [
     "node_modules",
