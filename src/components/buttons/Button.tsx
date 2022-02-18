@@ -1,8 +1,9 @@
 import { FC, ButtonHTMLAttributes } from "react";
 import classNames from "classnames";
 import { StyleFunction, useFela } from "react-fela";
-import { Theme } from "../../styles/Theme";
-import Typography from "../typographies/Typography";
+
+import Typography from "components/typographies/Typography";
+import { Theme } from "styles/Theme";
 
 type variantKeys = "primary" | "secondary" | "ghost";
 type colorKeys = "light" | "dark";

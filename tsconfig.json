@@ -23,6 +23,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
+    "baseUrl": "./src/",
     "typeRoots": [
       "./node_modules/@types"
     ],

@@ -1,13 +1,14 @@
 import { FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
-import { Tracks } from "../../infra/models/playlist/Playlist";
-import TrackItem from "./TrackItem";
-import { Theme } from "../../styles/Theme";
+
+import TrackItem from "components/tracks/TrackItem";
+import { Tracks } from "infra/models/playlist/Playlist";
+import { Theme } from "styles/Theme";
 
 const rootRules: StyleFunction<Theme> = ({ theme }) => ({
     backgroundColor: theme.pallette.neutral0,
     color: theme.pallette.navy10,
-    position: 'relative',
+    position: "relative",
     display: "grid",
     gap: 4,
     padding: 0,

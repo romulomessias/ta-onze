@@ -1,7 +1,8 @@
-import { tokenKey, refreshTokenKey } from "./../../../infra/constants/redis";
-import { getSpotifyRefreshedToken } from "./../../../services/spotify";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getByToken, updateSpotifyToken } from "../../../services/general";
+
+import { tokenKey, refreshTokenKey } from "infra/constants/redis";
+import { getSpotifyRefreshedToken } from "services/spotify";
+import { getByToken, updateSpotifyToken } from "services/general";
 
 /**
  * get token from redis

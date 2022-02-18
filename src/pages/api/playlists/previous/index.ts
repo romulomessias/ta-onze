@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getAll } from "../../../../services/playlist";
+import { getAll } from "services/playlist";
 
 /**
  * get current playing music

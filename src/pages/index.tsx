@@ -2,20 +2,21 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 import { FC, useEffect, useState } from "react";
 import { StyleFunction, useFela } from "react-fela";
-import { IF } from "../components/layouts/Condition";
+import Carousel, { autoplayPlugin } from "@brainhubeu/react-carousel";
 
-import Container from "../components/layouts/Container";
-import Layout from "../components/layouts/Layout";
-import Playlist from "../components/playlists/Playlist";
-import PlaylistHero from "../components/playlists/PlaylistHero";
-import Typography from "../components/typographies/Typography";
+import Container from "components/layouts/Container";
+import Layout from "components/layouts/Layout";
+import Playlist from "components/playlists/Playlist";
+import { IF } from "components/layouts/Condition";
+import PlaylistHero from "components/playlists/PlaylistHero";
+import Typography from "components/typographies/Typography";
 import {
     HighlightPlaylist,
     Playlist as PlaylistModel,
-} from "../infra/models/playlist/Playlist";
-import { PlaylistItem } from "../infra/models/spotify/SpotifyPlaylist";
-import { Theme } from "../styles/Theme";
-import Carousel, { autoplayPlugin } from "@brainhubeu/react-carousel";
+} from "infra/models/playlist/Playlist";
+import { PlaylistItem } from "infra/models/spotify/SpotifyPlaylist";
+import { Theme } from "styles/Theme";
+
 import "@brainhubeu/react-carousel/lib/style.css";
 
 const highlightedPlaylist: StyleFunction<Theme> = () => ({

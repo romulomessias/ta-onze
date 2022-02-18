@@ -1,9 +1,9 @@
 import cookie from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
-import { refreshTokenKey, tokenKey } from "../../../infra/constants/redis";
-import { SpotifyToken } from "../../../infra/models/spotify/SpotifyToken";
-import { updateSpotifyToken } from "../../../services/general";
-import { getSpotifyToken } from "./../../../services/spotify";
+import { refreshTokenKey, tokenKey } from "infra/constants/redis";
+import { SpotifyToken } from "infra/models/spotify/SpotifyToken";
+import { updateSpotifyToken } from "services/general";
+import { getSpotifyToken } from "services/spotify";
 
 /**
  * get token

@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import FelaProvider, { FelaProviderProps } from "../styles/FelaProvider";
 import { useRouter } from "next/router";
-import PageLoading from "../components/miscellaneous/PageLoading";
+import FelaProvider, { FelaProviderProps } from "styles/FelaProvider";
+import PageLoading from "components/miscellaneous/PageLoading";
 
 export type IAppProps = AppProps & FelaProviderProps;
 
@@ -30,7 +30,6 @@ const App: FC<IAppProps> = ({ Component, pageProps, renderer }) => {
         };
     });
 
-    console.log({ pageLoadingStatus });
     return (
         <>
             <Head>

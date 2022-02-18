@@ -1,11 +1,9 @@
-import { tokenKey } from "./../../../../../infra/constants/redis";
 import axios, { AxiosRequestConfig } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-    getById,
-    updatePlaylistGenres,
-} from "../../../../../services/playlist";
-import { getByToken } from "../../../../../services/general";
+
+import { tokenKey } from "infra/constants/redis";
+import { getById, updatePlaylistGenres } from "services/playlist";
+import { getByToken } from "services/general";
 
 /**
  * get token
@@ -66,7 +64,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         await updatePlaylistGenres(id as string, genres);
 
-        res.status(204).send({genres});
+        res.status(204).send({ genres });
     } catch (e) {
         console.log("deu erro", e);
         res.status(500).send(e);

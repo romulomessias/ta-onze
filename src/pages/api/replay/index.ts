@@ -1,7 +1,7 @@
-import { refreshTokenKey } from "./../../../infra/constants/redis";
-import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import { getByToken, updateSpotifyToken } from "../../../services/general";
+import { NextApiRequest, NextApiResponse } from "next";
+import { refreshTokenKey } from "infra/constants/redis";
+import { getByToken, updateSpotifyToken } from "services/general";
 
 const refreshToken = async (
     refresh_token: string

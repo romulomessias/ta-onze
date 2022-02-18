@@ -1,4 +1,4 @@
-import { ExternalIDS, Image, ExternalUrls } from "./common";
+import { ExternalIDS, Image, ExternalUrls } from "infra/models/spotify/common";
 
 export interface Track {
     timestamp: number;

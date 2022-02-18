@@ -2,10 +2,10 @@ import React from "react";
 import { NextPage } from "next";
 import { StyleFunction, useFela } from "react-fela";
 
-import Layout from "../components/layouts/Layout";
-import Typography from "../components/typographies/Typography";
-import Container from "../components/layouts/Container";
-import { Theme } from "../styles/Theme";
+import Layout from "components/layouts/Layout";
+import Typography from "components/typographies/Typography";
+import Container from "components/layouts/Container";
+import { Theme } from "styles/Theme";
 
 interface OfflinePageProps {
     hasPermission: boolean;

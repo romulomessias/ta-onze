@@ -1,5 +1,3 @@
-// import { TracksItem } from "./../spotify/SpotifyPlaylist";
-
 export interface Playlist {
     id: string;
     name: string;
@@ -14,7 +12,7 @@ export interface Playlist {
 
 export interface Genre {
     name: string;
-    popularity: number
+    popularity: number;
 }
 
 export interface Tracks {
@@ -28,11 +26,11 @@ export interface TrackItem {
 }
 
 export interface TracksItem {
-    added_at:        Date;
-    added_by:        User;
-    is_local?:        boolean;
-    primary_color?:   null;
-    track:           TrackDetail;
+    added_at: Date;
+    added_by: User;
+    is_local?: boolean;
+    primary_color?: null;
+    track: TrackDetail;
 }
 
 export interface TrackDetail {
@@ -57,7 +55,6 @@ export interface TrackDetail {
     episode?: boolean;
     track?: boolean;
 }
-
 
 export interface Album {
     available_markets?: Array<string>;
@@ -98,11 +95,10 @@ export interface Image {
     width: number;
 }
 
-
 export interface HighlightPlaylist {
-    name: string,
-    imageUrl: string,
-    description: string,
+    name: string;
+    imageUrl: string;
+    description: string;
     tracks: Tracks;
     spotifyUrl: string;
 }

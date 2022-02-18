@@ -1,7 +1,8 @@
 import { createElement, FC, HTMLAttributes } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import classNames from "classnames";
-import { ColorKey, Theme } from "../../styles/Theme";
+
+import { ColorKey, Theme } from "styles/Theme";
 
 type variantsType =
     | "headline1"

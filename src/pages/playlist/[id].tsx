@@ -1,13 +1,13 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { StyleFunction, useFela } from "react-fela";
-import { Playlist as PlaylistModel } from "../../infra/models/playlist/Playlist";
-import Container from "../../components/layouts/Container";
-import Layout from "../../components/layouts/Layout";
-import Typography from "../../components/typographies/Typography";
-import { Theme } from "../../styles/Theme";
-import PlaylistHero from "../../components/playlists/PlaylistHero";
-import TrackSection from "../../components/tracks/TrackSection";
+import Container from "components/layouts/Container";
+import Layout from "components/layouts/Layout";
+import Typography from "components/typographies/Typography";
+import PlaylistHero from "components/playlists/PlaylistHero";
+import TrackSection from "components/tracks/TrackSection";
+import { Playlist as PlaylistModel } from "infra/models/playlist/Playlist";
+import { Theme } from "styles/Theme";
 
 const layoutRules: StyleFunction<Theme> = ({ theme }) => ({
     backgroundColor: theme.pallette.neutral10,

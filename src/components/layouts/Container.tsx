@@ -1,7 +1,7 @@
 import { createElement, FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import classNames from "classnames";
-import { Theme } from "../../styles/Theme";
+import { Theme } from "styles/Theme";
 
 interface ContainerProps {
     as?: keyof React.ReactHTML;

@@ -1,10 +1,11 @@
-import { Tracks } from "./../../../../../infra/models/spotify/SpotifyPlaylist";
-import { getPlaylist } from "./../../../../../services/spotify";
-import { tokenKey } from "./../../../../../infra/constants/redis";
 import axios, { AxiosRequestConfig } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { updateTracks } from "../../../../../services/playlist";
-import { getByToken } from "../../../../../services/general";
+
+import { Tracks } from "infra/models/spotify/SpotifyPlaylist";
+import { tokenKey } from "infra/constants/redis";
+import { getPlaylist } from "services/spotify";
+import { updateTracks } from "services/playlist";
+import { getByToken } from "services/general";
 
 /**
  * get token

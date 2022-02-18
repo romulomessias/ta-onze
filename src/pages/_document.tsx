@@ -6,8 +6,8 @@ import Document, {
     NextScript,
 } from "next/document";
 import { renderToNodeList } from "react-fela";
-import { baseStyle, globalStyle } from "../styles/global.styles";
-import getFelaRenderer from "../styles/FelaRenderer";
+import { baseStyle, globalStyle } from "styles/global.styles";
+import getFelaRenderer from "styles/FelaRenderer";
 
 class AppDocument extends Document {
     static async getInitialProps(ctx: DocumentContext) {

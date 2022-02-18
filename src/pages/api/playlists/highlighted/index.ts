@@ -1,11 +1,11 @@
-import { HighlightPlaylist } from "./../../../../infra/models/playlist/Playlist";
-import { tokenKey } from "../../../../infra/constants/redis";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getCurrentPlaylist, getPlaylist } from "../../../../services/spotify";
 
-import { PlaylistItem } from "../../../../infra/models/spotify/SpotifyPlaylist";
-import { getByToken } from "../../../../services/general";
+import { HighlightPlaylist } from "infra/models/playlist/Playlist";
+import { tokenKey } from "infra/constants/redis";
+import { PlaylistItem } from "infra/models/spotify/SpotifyPlaylist";
+import { getCurrentPlaylist, getPlaylist } from "services/spotify";
+import { getByToken } from "services/general";
 
 const mapHighlightedPlaylist = (
     playlist: PlaylistItem,
@@ -42,7 +42,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             );
             token = response.data.token;
         }
-
 
         const highlightedPlaylists = await Promise.all([
             getCurrentPlaylist({

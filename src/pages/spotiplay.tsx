@@ -5,12 +5,12 @@ import { StyleFunction, useFela } from "react-fela";
 import { useRouter } from "next/router";
 import cookie from "cookie";
 
-import Layout from "../components/layouts/Layout";
-import Typography from "../components/typographies/Typography";
-import Container from "../components/layouts/Container";
-import Button from "../components/buttons/Button";
-import { Theme } from "../styles/Theme";
-import Condition from "../components/layouts/Condition";
+import Layout from "components/layouts/Layout";
+import Typography from "components/typographies/Typography";
+import Container from "components/layouts/Container";
+import Button from "components/buttons/Button";
+import Condition from "components/layouts/Condition";
+import { Theme } from "styles/Theme";
 
 interface SingInPageProps {
     hasPermission: boolean;

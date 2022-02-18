@@ -1,10 +1,11 @@
 import { MouseEventHandler, FC } from "react";
 import { StyleFunction, useFela } from "react-fela";
 import Image from "next/image";
-import Button from "../../components/buttons/Button";
-import Container from "../../components/layouts/Container";
-import { Theme } from "../../styles/Theme";
 import classNames from "classnames";
+
+import Button from "components/buttons/Button";
+import Container from "components/layouts/Container";
+import { Theme } from "styles/Theme";
 
 const heroRules: StyleFunction<Theme> = ({ theme }) => ({
     display: "grid",

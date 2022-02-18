@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
 import { FC, MouseEventHandler } from "react";
 import { StyleFunction, useFela } from "react-fela";
-import { Playlist as PlaylistModel } from "../../infra/models/playlist/Playlist";
-import { Theme } from "../../styles/Theme";
-import Button from "../buttons/Button";
-import { IF } from "../layouts/Condition";
-import Typography from "../typographies/Typography";
+
+import Button from "components/buttons/Button";
+import { IF } from "components/layouts/Condition";
+import Typography from "components/typographies/Typography";
+import { Playlist as PlaylistModel } from "infra/models/playlist/Playlist";
+import { Theme } from "styles/Theme";
 
 interface PlaylistProps {
     playlist: PlaylistModel;
@@ -91,7 +92,7 @@ const Playlist: FC<PlaylistProps> = ({ playlist }) => {
     const router = useRouter();
 
     const onButtonClick: MouseEventHandler<HTMLButtonElement> = (e) => {
-        e.stopPropagation()
+        e.stopPropagation();
         const a = document.createElement("a");
         a.href = playlist.externalUrl;
         a.target = "_black";

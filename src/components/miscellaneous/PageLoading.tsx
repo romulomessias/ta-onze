@@ -1,7 +1,7 @@
 import { FC } from "react";
 import classNames from "classnames";
 import { StyleFunction, useFela } from "react-fela";
-import { Theme } from "../../styles/Theme";
+import { Theme } from "styles/Theme";
 
 interface PageLoadingProps {
     status: string;

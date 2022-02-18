@@ -1,9 +1,10 @@
 import { FC, useState } from "react";
 import classNames from "classnames";
 import { StyleFunction, useFela } from "react-fela";
-import { TrackDetail } from "../../infra/models/playlist/Playlist";
-import { Theme } from "../../styles/Theme";
-import Typography from "../typographies/Typography";
+
+import Typography from "components/typographies/Typography";
+import { TrackDetail } from "infra/models/playlist/Playlist";
+import { Theme } from "styles/Theme";
 
 const rootRules: StyleFunction<Theme> = ({ theme }) => ({
     padding: 8,
@@ -23,7 +24,7 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
         gridAutoFlow: "row",
         gap: 8,
         height: "unset",
-        gridAutoColumns: '1fr',
+        gridAutoColumns: "1fr",
 
         "> .audio-wrapper": {
             justifySelf: "center",
