@@ -6,6 +6,7 @@ import { getById } from "services/playlist";
 import { tokenKey } from "infra/constants/redis";
 import { getByToken } from "services/general";
 import { getContributorProfile } from "services/spotify";
+import { sqsClient } from "services/aws";
 
 const getContributors = (playlist: Playlist) => {
     const contributors = playlist.tracks.items.reduce<User[]>(
@@ -36,8 +37,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const { id } = req.query;
 
-    console.log({ id });
-
     if (!id) {
         res.status(400);
     }
@@ -53,22 +52,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             token = response.data.token;
         }
 
-        console.log({ token });
-
         const playlist = await getById(id as string);
         const contributors = getContributors(playlist);
 
-        const [first] = contributors;
+        contributors.forEach((contributor) =>
+            sqsClient.addContributorToQueue(contributor)
+        );
 
-        if (first) {
-            const profile = await getContributorProfile(
-                first.href,
-                token.value
-            );
-            res.status(200).send({ profile });
-        } else {
-            res.status(200).send(contributors);
-        }
+        res.status(200).send("Queue updated");
     } catch (e) {
         console.log(e);
         res.status(500).send(e);

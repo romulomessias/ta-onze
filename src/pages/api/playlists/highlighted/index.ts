@@ -36,11 +36,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         let token = await getByToken(tokenKey);
 
-        if (!token) {
+        const currentDate = new Date();
+        const tokenTTL = new Date(Date.now() + token.timeToLive!);
+
+
+        if (!token ) {
+            console.log("ops", { token });
             const response = await axios.get(
                 `${process.env.PUBLIC_URL}/api/replay`
             );
             token = response.data.token;
+
+            console.log("ow", { updated: response.data.token });
         }
 
         const highlightedPlaylists = await Promise.all([
@@ -70,7 +77,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             ],
         });
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         res.status(500).send(e);
     }
 };

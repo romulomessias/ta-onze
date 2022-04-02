@@ -87,6 +87,7 @@ export interface ExternalUrls {
 export interface User {
     id: string;
     name?: string;
+    href: string
 }
 
 export interface Image {
