@@ -1,12 +1,11 @@
+import axios, { AxiosRequestConfig } from "axios";
+
 import {
     PlaylistItem,
     PlaylistRequestParams,
     PlaylistsResponse,
 } from "../infra/models/spotify/SpotifyPlaylist";
-import axios, { AxiosRequestConfig } from "axios";
 import { SpotifyToken } from "../infra/models/spotify/SpotifyToken";
-import { User } from "infra/models/playlist/Playlist";
-import { String } from "aws-sdk/clients/codebuild";
 import { SpotifyProfile } from "infra/models/spotify/SpotifyProfile";
 
 export const getSpotifyToken = async (code: string): Promise<SpotifyToken> => {
@@ -92,6 +91,7 @@ export const getPlaylist = async (
         return data;
     } catch (e) {
         console.error("cound not get playlist", params);
+        console.error(e);
         throw e;
     }
 };
@@ -126,7 +126,7 @@ export const getPlaylists = async (
 };
 
 export const getContributorProfile = async (
-    url: string,
+    uid: string,
     token: string
 ): Promise<SpotifyProfile> => {
     const config: AxiosRequestConfig = {
@@ -137,11 +137,15 @@ export const getContributorProfile = async (
     };
 
     try {
-        const { data } = await axios.get(url, config);
+        console.log("https://api.spotify.com/v1/users/" + uid);
+        const { data } = await axios.get(
+            "https://api.spotify.com/v1/users/" + uid,
+            config
+        );
 
         return data;
     } catch (e) {
-        console.error("cound not get user progile");
+        console.error("cound not get user profile");
         console.error(e);
         throw e;
     }

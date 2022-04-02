@@ -1,5 +1,5 @@
 import { currentSprintKey } from "../infra/constants/redis";
-import dynamoClient from "./dynamodb";
+import { dynamoClient } from "./aws";
 
 const TableName = "TaOnzeInfo";
 

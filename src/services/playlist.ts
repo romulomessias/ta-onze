@@ -3,7 +3,7 @@ import {
     PlaylistItem,
     TracksItem,
 } from "./../infra/models/spotify/SpotifyPlaylist";
-import dynamoClient from "./dynamodb";
+import { dynamoClient } from "./aws";
 import { Key } from "aws-sdk/clients/dynamodb";
 
 type omitKeys =
