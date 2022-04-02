@@ -73,3 +73,8 @@ resource "aws_dynamodb_table" "ta-onze-contributors" {
   }
 
 }
+resource "aws_sqs_queue" "ta-onze-update-contributors-queue" {
+  name                        = "TaOnzeUpdateContributorsQueue.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = true
+}
