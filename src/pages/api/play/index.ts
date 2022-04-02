@@ -25,9 +25,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let token: SpotifyToken | undefined;
     try {
         token = await getSpotifyToken(code as string);
-    } catch (e) {
+    } catch ({ data = {} }) {
         console.error("nao deu pra pegar o token meu");
-        console.error(e?.data);
+        console.error(data);
         res.redirect(`${process.env.PUBLIC_URL}/spotiplay`);
     }
 
