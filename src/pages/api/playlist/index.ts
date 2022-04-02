@@ -98,15 +98,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             id: newPlaylist.id,
         });
 
-        console.log("save on dynamodb?");
         //save on dynamodb
         const playlistRes = await createPlaylist(updatedPlaylist);
         console.log("saved at dynamo", { playlistRes });
         await updateTracks(updatedPlaylist.id, tracks);
-
-        // .then(async (res) => {
-
-        // });
 
         // if (userId === currentPlaylist.owner.id) {
         //     const { data: deletedData } = await axios.delete(
@@ -119,6 +114,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         //         }
         //     );
         // }
+
+        await axios.get(
+            `${process.env.PUBLIC_URL}/api/${updatedPlaylist.id}/contributors/process`
+        );
 
         updateCurrentSprint(updatedSprint);
         res.status(201).send(updatedPlaylist);
