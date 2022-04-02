@@ -19,10 +19,14 @@ const postContributor = async (res: NextApiResponse, uid: string) => {
             token = response.data.token;
         }
 
-        const profile = await getContributorSpotifyProfile(uid, token.value);
+        let profile = await await getContributorProfile(uid);
 
-        addContributor(profile);
-        
+        if (!profile) {
+            console.log("addProfile");
+            profile = await getContributorSpotifyProfile(uid, token.value);
+            addContributor(profile);
+        }
+
         res.status(201).send({ profile });
     } catch (e) {
         console.log(e);
