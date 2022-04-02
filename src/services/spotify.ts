@@ -5,6 +5,9 @@ import {
 } from "../infra/models/spotify/SpotifyPlaylist";
 import axios, { AxiosRequestConfig } from "axios";
 import { SpotifyToken } from "../infra/models/spotify/SpotifyToken";
+import { User } from "infra/models/playlist/Playlist";
+import { String } from "aws-sdk/clients/codebuild";
+import { SpotifyProfile } from "infra/models/spotify/SpotifyProfile";
 
 export const getSpotifyToken = async (code: string): Promise<SpotifyToken> => {
     const secrets = `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_SECRET_CLIENT_ID}`;
@@ -118,6 +121,28 @@ export const getPlaylists = async (
         return data;
     } catch (e) {
         console.error("cound not get playlists");
+        throw e;
+    }
+};
+
+export const getContributorProfile = async (
+    url: string,
+    token: string
+): Promise<SpotifyProfile> => {
+    const config: AxiosRequestConfig = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    };
+
+    try {
+        const { data } = await axios.get(url, config);
+
+        return data;
+    } catch (e) {
+        console.error("cound not get user progile");
+        console.error(e);
         throw e;
     }
 };
