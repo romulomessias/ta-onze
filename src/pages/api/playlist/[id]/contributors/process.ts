@@ -58,7 +58,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             sqsClient.addContributorToQueue(contributor)
         );
 
-        res.status(200).send("Queue updated");
+        res.status(200).send({
+            message: "process finished",
+            contributors: contributors.map((item) => item.id),
+        });
     } catch (e) {
         console.log(e);
         res.status(500).send(e);
