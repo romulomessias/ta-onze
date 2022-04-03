@@ -27,6 +27,7 @@ const postContributor = async (res: NextApiResponse, uid: string) => {
             addContributor(profile);
         }
 
+        res.setHeader('Cache-Control', 's-maxage=86400')
         res.status(201).send(profile);
     } catch (e) {
         console.log(e);
