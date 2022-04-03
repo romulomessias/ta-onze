@@ -12,7 +12,7 @@ const postContributor = async (res: NextApiResponse, uid: string) => {
         let token = await getByToken(tokenKey);
 
         if (!token) {
-            console.log("ops");
+            console.log("ops, no token");
             const response = await axios.get(
                 `${process.env.PUBLIC_URL}/api/replay`
             );
@@ -22,9 +22,11 @@ const postContributor = async (res: NextApiResponse, uid: string) => {
         let profile = await await getContributorProfile(uid);
 
         if (!profile) {
-            console.log("addProfile");
+            console.log("get profile for", uid);
             profile = await getContributorSpotifyProfile(uid, token.value);
-            addContributor(profile);
+            console.log("got profile for", profile);
+            await addContributor(profile);
+            console.log("profile saved", uid);
         }
 
         res.status(201).send(profile);
