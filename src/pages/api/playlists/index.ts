@@ -13,28 +13,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const lastKeyId = req.query.lastPageEvaluated;
-        const lastEvaluatedKey: DocumentClient.Key | undefined = lastKeyId
+        const { lastPageEvaluated: id } = req.query;
+        const lastEvaluatedKey: DocumentClient.Key | undefined = id
             ? {
-                  id: lastKeyId,
+                  id,
               }
             : undefined;
 
-        const {
-            Items: playlists = [],
-            LastEvaluatedKey,
-            ...rest
-        } = await getAll(lastEvaluatedKey);
-        // let playlist = Items;
-
-        // while (lastEvaluatedKey !== undefined) {
-        //     const { Items = [], LastEvaluatedKey } = await getAll(
-        //         lastEvaluatedKey
-        //     );
-        //     playlist = [...playlist, ...Items];
-        //     lastEvaluatedKey = LastEvaluatedKey;
-        //     console.log("previous.length", playlist.length, lastEvaluatedKey);
-        // }
+        const { Items: playlists = [], LastEvaluatedKey } = await getAll(
+            lastEvaluatedKey
+        );
 
         res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate");
         res.status(200).send({
