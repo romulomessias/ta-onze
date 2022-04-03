@@ -27,7 +27,7 @@ const postContributor = async (res: NextApiResponse, uid: string) => {
             addContributor(profile);
         }
 
-        res.status(201).send({ profile });
+        res.status(201).send(profile);
     } catch (e) {
         console.log(e);
         res.status(500).send(e);
