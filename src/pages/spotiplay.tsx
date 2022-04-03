@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NextPage, GetServerSideProps } from "next";
 import { StyleFunction, useFela } from "react-fela";
@@ -11,6 +11,9 @@ import Container from "components/layouts/Container";
 import Button from "components/buttons/Button";
 import Condition from "components/layouts/Condition";
 import { Theme } from "styles/Theme";
+import { Playlist } from "infra/models/playlist/Playlist";
+import PageLoading from "components/miscellaneous/PageLoading";
+import PlaylistItem from "components/playlists/dashboard/PlaylistItem";
 
 interface SingInPageProps {
     hasPermission: boolean;
@@ -27,7 +30,17 @@ const containerRules: StyleFunction<Theme> = ({ theme }) => ({
     color: theme.pallette.neutral0,
     display: "grid",
     gap: 32,
-    justifyContent: "flex-start",
+    // justifyContent: "flex-start",
+    "> *": {
+        marginRight: "auto",
+    },
+});
+
+const contentContainerRules: StyleFunction<Theme> = ({ theme }) => ({
+    color: theme.pallette.neutral0,
+    display: "grid",
+    gap: 16,
+    // justifyContent: "flex-start",
     "> *": {
         marginRight: "auto",
     },
@@ -42,6 +55,18 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
     };
 
     const [isClearingPlaylist, setIsClearingPlaylist] = useState(false);
+    const [playlistLoaderStatus, setPlaylistLoadingStatus] =
+        useState("default");
+    const [playlists, setPlaylists] = useState<Playlist[]>([]);
+    const [lastPageEvaluated, setLstPageEvaluated] = useState<
+        string | undefined
+    >();
+
+    interface PlaylistResponse {
+        playlists: Playlist[];
+        lastPageEvaluated: string | undefined;
+    }
+
     const onCleatPlaylistButtonClick = () => {
         setIsClearingPlaylist(true);
         axios
@@ -50,6 +75,30 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
             .catch(() => alert("Tenha calma meu jovem! Tente mais uma vez!"))
             .finally(() => setIsClearingPlaylist(false));
     };
+
+    const handleLoadPlaylist = () => {
+        setPlaylistLoadingStatus("loading");
+        return axios
+            .get<PlaylistResponse>("/api/playlists", {
+                baseURL: process.env.PUBLIC_URL,
+                params: {
+                    lastPageEvaluated,
+                },
+            })
+            .then(({ data }) => {
+                setPlaylists([...playlists, ...data.playlists]);
+                setLstPageEvaluated(data.lastPageEvaluated);
+            })
+            .finally(() => {
+                setPlaylistLoadingStatus("loaded");
+            });
+    };
+
+    useEffect(() => {
+        if (hasPermission) {
+            handleLoadPlaylist();
+        }
+    }, []);
 
     return (
         <Layout>
@@ -61,9 +110,12 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
 
                     <Condition>
                         <Condition.IF condition={hasPermission}>
-                            <Typography variant="subtitle" weight={300}>
-                                you already has synced your account!!!1!
-                            </Typography>
+                            <Button
+                                onClick={onCleatPlaylistButtonClick}
+                                disabled={isClearingPlaylist}
+                            >
+                                Clear current playlist
+                            </Button>
                         </Condition.IF>
 
                         <Condition.IF condition={!hasPermission}>
@@ -72,13 +124,47 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
                     </Condition>
                 </Container>
             </header>
-            <Container as="section">
+            <Container as="section" className={css(contentContainerRules)}>
+                <PageLoading status={playlistLoaderStatus} />
                 <Condition.IF condition={hasPermission}>
+                    <Typography>
+                        <Condition>
+                            <Condition.IF
+                                condition={playlistLoaderStatus === "loading"}
+                            >
+                                Carreando playlists
+                            </Condition.IF>
+                            <Condition.IF condition={playlists.length == 0}>
+                                Nenhuma playlist carregada
+                            </Condition.IF>
+                            <Condition.IF condition={playlists.length == 1}>
+                                {" "}
+                                <strong>{playlists.length}</strong> playlist
+                                carregada
+                            </Condition.IF>
+                            <Condition.IF condition={playlists.length > 1}>
+                                <strong>{playlists.length}</strong> playlists
+                                carregadas
+                            </Condition.IF>
+                        </Condition>
+                    </Typography>
+                    {playlists.map((playlist) => (
+                        <PlaylistItem key={playlist.id} playlist={playlist} />
+                    ))}
+                </Condition.IF>
+
+                <Condition.IF
+                    condition={
+                        hasPermission &&
+                        lastPageEvaluated !== undefined &&
+                        playlists.length > 0
+                    }
+                >
                     <Button
-                        onClick={onCleatPlaylistButtonClick}
-                        disabled={isClearingPlaylist}
+                        onClick={handleLoadPlaylist}
+                        disabled={playlistLoaderStatus === "loading"}
                     >
-                        Clear current playlist
+                        Carregar Mais
                     </Button>
                 </Condition.IF>
             </Container>
@@ -88,16 +174,6 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookies = cookie.parse(context.req.headers.cookie || "");
-
-    // try {
-    //     const { data } = await axios.get("/api/canyouhear", {
-    //         baseURL: process.env.PUBLIC_URL,
-    //     });
-    //     hasPermission = data.hasPermission ?? false;
-    // } catch (e) {
-    //     console.error(e);
-    //     hasPermission = false;
-    // }
 
     return {
         props: {
