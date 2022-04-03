@@ -32,11 +32,28 @@ resource "aws_dynamodb_table" "ta-onze" {
   }
 }
 
+resource "aws_dynamodb_table" "ta-onze-playlist" {
+  name         = "TaOnzePlaylists"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
+  range_key    = "createdAt"
+
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  attribute {
+    name = "createdAt"
+    type = "S"
+  }
+}
+
 resource "aws_dynamodb_table" "ta-onze-info" {
   name         = "TaOnzeInfo"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "key"
-
   attribute {
     name = "key"
     type = "S"
@@ -70,9 +87,15 @@ resource "aws_dynamodb_table" "ta-onze-contributors" {
   name         = "TaOnzeContributors"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "id"
+  range_key    = "display_name"
 
   attribute {
     name = "id"
+    type = "S"
+  }
+
+  attribute {
+    name = "display_name"
     type = "S"
   }
 
