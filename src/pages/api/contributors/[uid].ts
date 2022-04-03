@@ -27,7 +27,6 @@ const postContributor = async (res: NextApiResponse, uid: string) => {
             addContributor(profile);
         }
 
-        res.setHeader('Cache-Control', 's-maxage=86400')
         res.status(201).send(profile);
     } catch (e) {
         console.log(e);
@@ -50,7 +49,8 @@ const getContributor = async (res: NextApiResponse, uid: string) => {
         console.log({ profile });
 
         if (profile) {
-            res.status(200).send({ profile });
+            res.setHeader("Cache-Control", "s-maxage=86400");
+            res.status(200).send(profile);
         } else {
             res.status(404).send(`profile for ${uid} was not found`);
         }
