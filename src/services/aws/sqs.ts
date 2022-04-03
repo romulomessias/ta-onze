@@ -1,5 +1,11 @@
+import aws from "aws-sdk";
 import SQS from "aws-sdk/clients/sqs";
 import { User } from "infra/models/playlist/Playlist";
+
+aws.config.update({
+    accessKeyId: process.env.TAONZE_AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.TAONZE_AWS_SECRET_ACCESS_KEY,
+});
 
 const client = new SQS({
     region: "us-east-1",
