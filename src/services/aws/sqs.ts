@@ -29,7 +29,7 @@ const addContributorToQueue = (contributor: User) => {
             "https://sqs.us-east-1.amazonaws.com/503036362866/TaOnzeUpdateContributorsQueue.fifo",
     };
 
-    client.sendMessage(params, (err, data) => {
+    return client.sendMessage(params, (err, data) => {
         if (err) {
             console.log("Error", err);
         } else {

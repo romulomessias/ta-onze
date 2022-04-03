@@ -54,9 +54,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const playlist = await getById(id as string);
         const contributors = getContributors(playlist);
 
-        contributors.forEach((contributor) =>
-            sqsClient.addContributorToQueue(contributor)
-        );
+        contributors.forEach((contributor) => {
+            const sqsResult = sqsClient.addContributorToQueue(contributor);
+            console.log("send message to", contributor, sqsResult);
+        });
 
         res.status(200).send({
             message: "process finished",
