@@ -59,14 +59,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return sqsClient.addContributorToQueue(contributor);
         });
 
-        const MessageAttributes = await Promise.all(promises);
-
-        console.log(MessageAttributes);
+        const messages = await Promise.all(promises);
 
         res.status(200).send({
             status: "process finished",
             contributors: contributors.map((item) => item.id),
-            MessageAttributes,
+            messages,
         });
     } catch (e) {
         console.log(e);
