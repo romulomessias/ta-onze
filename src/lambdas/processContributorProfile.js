@@ -1,12 +1,16 @@
+const https = require("https");
+
 exports.handler = async (event, context) => {
     const [record] = event.Records;
-    const { Id } = record.attributes;
-    console.log({ record, Id });
-    console.log("processContributorProfile");
+    const contributorId = record.messageAttributes.Id.stringValue;
+    console.log({ contributorId });
+    console.log("processContributorProfile :D");
 
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify(record),
-    };
-    return response;
+    https.post("https://www.taonze.com.br/api/contributors/" + contributorId);
+    // .then((response) => {
+    //     console.log("deu bom", response);
+    // })
+    // .catch((e) => {
+    //     console.error("deu ruim", e);
+    // });
 };
