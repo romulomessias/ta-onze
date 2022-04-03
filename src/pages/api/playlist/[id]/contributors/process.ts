@@ -1,11 +1,10 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 import { Playlist, User } from "infra/models/playlist/Playlist";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getById } from "services/playlist";
 import { tokenKey } from "infra/constants/redis";
 import { getByToken } from "services/general";
-import { getContributorProfile } from "services/spotify";
 import { sqsClient } from "services/aws";
 
 const getContributors = (playlist: Playlist) => {

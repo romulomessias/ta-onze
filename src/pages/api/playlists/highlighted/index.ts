@@ -36,11 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         let token = await getByToken(tokenKey);
 
-        const currentDate = new Date();
-        const tokenTTL = new Date(Date.now() + token.timeToLive!);
-
-
-        if (!token ) {
+        if (!token) {
             console.log("ops", { token });
             const response = await axios.get(
                 `${process.env.PUBLIC_URL}/api/replay`
