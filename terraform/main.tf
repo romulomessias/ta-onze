@@ -12,6 +12,7 @@ provider "aws" {
   region  = "us-east-1"
 }
 
+//DYNAMO
 resource "aws_dynamodb_table" "ta-onze" {
   name         = "TaOnze"
   billing_mode = "PAY_PER_REQUEST"
@@ -73,8 +74,50 @@ resource "aws_dynamodb_table" "ta-onze-contributors" {
   }
 
 }
+
+// S3
+resource "aws_s3_bucket" "ta-onze-lambdas" {
+  bucket = "ta-onze.lambdas"
+  acl    = "public-read"
+  policy = file("policies/s3.policy.json")
+
+  # force_destroy = true
+  tags = {
+    Environment = "production"
+  }
+  cors_rule {
+    allowed_headers = ["Authorization", "Content-Length"]
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+    max_age_seconds = 3000
+  }
+}
+
+//SQS
 resource "aws_sqs_queue" "ta-onze-update-contributors-queue" {
   name                        = "TaOnzeUpdateContributorsQueue.fifo"
   fifo_queue                  = true
   content_based_deduplication = true
+}
+
+//LAMBDA
+
+resource "aws_iam_role" "ta-onze-iam-lambda" {
+  name               = "TaOnzeIamLambda"
+  assume_role_policy = file("policies/lambda.policy.json")
+}
+
+resource "aws_iam_role" "ta-onze-iam-role" {
+  name               = "TaOnzeIamRole"
+  assume_role_policy = file("roles/lambda.role.json")
+}
+
+resource "aws_lambda_function" "ta-onze-contributors-process-lambda" {
+  function_name = "processContributorProfile"
+  s3_bucket     = aws_s3_bucket.ta-onze-lambdas.bucket
+  s3_key        = "processContributorProfile.js.zip"
+  role          = aws_iam_role.ta-onze-iam-role.arn
+  handler       = "processContributorProfile.handler"
+
+  runtime = "nodejs14.x"
 }
