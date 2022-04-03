@@ -5,6 +5,14 @@ terraform {
       version = "~> 3.0"
     }
   }
+
+  cloud {
+    organization = "taonze"
+
+    workspaces {
+      name = "ta-onze"
+    }
+  }
 }
 
 provider "aws" {
