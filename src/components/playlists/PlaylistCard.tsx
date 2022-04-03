@@ -8,7 +8,7 @@ import Typography from "components/typographies/Typography";
 import { Playlist as PlaylistModel } from "infra/models/playlist/Playlist";
 import { Theme } from "styles/Theme";
 
-interface PlaylistProps {
+interface PlaylistCardProps {
     playlist: PlaylistModel;
 }
 
@@ -25,7 +25,7 @@ const rootRules: StyleFunction<Theme> = ({ theme }) => ({
     borderWidth: 2,
     borderStyle: "solid",
     borderColor: theme.pallette.neutral10,
-    cursor: "default",
+    cursor: "pointer",
 
     [theme.breakpoint.small]: {
         gridAutoFlow: "row",
@@ -83,7 +83,7 @@ const genresRules: StyleFunction<Theme> = ({ theme }) => ({
     alignContent: "center",
 });
 
-const Playlist: FC<PlaylistProps> = ({ playlist }) => {
+const PlaylistCard: FC<PlaylistCardProps> = ({ playlist }) => {
     const { images, genres = [] } = playlist;
     const [image] = images;
     const [first, second, third] = genres;
@@ -105,7 +105,11 @@ const Playlist: FC<PlaylistProps> = ({ playlist }) => {
 
     return (
         <section className={css(rootRules)} onClick={onCardClick}>
-            <img src={image.url} className={css(coverRules)} />
+            <img
+                title="playlist cover"
+                src={image.url}
+                className={css(coverRules)}
+            />
             <section className={css(contentGroupRules)}>
                 <Typography variant="headline4" weight={500}>
                     {playlist.name}
@@ -144,4 +148,4 @@ const Playlist: FC<PlaylistProps> = ({ playlist }) => {
     );
 };
 
-export default Playlist;
+export default PlaylistCard;

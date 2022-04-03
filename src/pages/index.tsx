@@ -6,7 +6,7 @@ import Carousel, { autoplayPlugin } from "@brainhubeu/react-carousel";
 
 import Container from "components/layouts/Container";
 import Layout from "components/layouts/Layout";
-import Playlist from "components/playlists/Playlist";
+import PlaylistCard from "components/playlists/PlaylistCard";
 import { IF } from "components/layouts/Condition";
 import PlaylistHero from "components/playlists/PlaylistHero";
 import Typography from "components/typographies/Typography";
@@ -142,7 +142,7 @@ export default function Index({ previous = [], highlighted = [] }: IndexProps) {
                         (first, second) => second.createdAt! - first.createdAt!
                     )
                     .map((item) => (
-                        <Playlist key={item.id} playlist={item} />
+                        <PlaylistCard key={item.id} playlist={item} />
                     ))}
             </Container>
         </Layout>
