@@ -54,14 +54,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const playlist = await getById(id as string);
         const contributors = getContributors(playlist);
 
-        contributors.forEach((contributor) => {
-            const sqsResult = sqsClient.addContributorToQueue(contributor);
-            console.log("send message to", contributor, sqsResult);
+        const promises = contributors.map((contributor) => {
+            console.log("adding to query", contributor.id);
+            return sqsClient.addContributorToQueue(contributor);
         });
 
+        const MessageAttributes = await Promise.all(promises);
+
+        console.log(MessageAttributes);
+
         res.status(200).send({
-            message: "process finished",
+            status: "process finished",
             contributors: contributors.map((item) => item.id),
+            MessageAttributes,
         });
     } catch (e) {
         console.log(e);

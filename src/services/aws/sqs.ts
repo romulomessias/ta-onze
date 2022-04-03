@@ -29,13 +29,7 @@ const addContributorToQueue = (contributor: User) => {
             "https://sqs.us-east-1.amazonaws.com/503036362866/TaOnzeUpdateContributorsQueue.fifo",
     };
 
-    return client.sendMessage(params, (err, data) => {
-        if (err) {
-            console.log("Error", err);
-        } else {
-            console.log("Success", data.MessageId, contributor.id);
-        }
-    });
+    return client.sendMessage(params).promise();
 };
 
 const sqsClient = {
