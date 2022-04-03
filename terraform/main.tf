@@ -100,23 +100,40 @@ resource "aws_sqs_queue" "ta-onze-update-contributors-queue" {
   content_based_deduplication = true
 }
 
-//LAMBDA
-
-resource "aws_iam_role" "ta-onze-iam-lambda" {
-  name               = "TaOnzeIamLambda"
-  assume_role_policy = file("policies/lambda.policy.json")
+resource "aws_lambda_event_source_mapping" "ta-onze-contributors-event" {
+  event_source_arn = aws_sqs_queue.ta-onze-update-contributors-queue.arn
+  enabled          = true
+  function_name    = aws_lambda_function.ta-onze-contributors-process-lambda.function_name
+  batch_size       = 1
 }
 
-resource "aws_iam_role" "ta-onze-iam-role" {
-  name               = "TaOnzeIamRole"
-  assume_role_policy = file("roles/lambda.role.json")
+//LAMBDA
+
+data "aws_iam_policy_document" "ses_bounces_lambda_role_iam_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ta-onze-labmda-role" {
+  name               = "TaOnzeLambdaRole"
+  assume_role_policy = data.aws_iam_policy_document.ses_bounces_lambda_role_iam_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_sqs_role_policy" {
+  role       = aws_iam_role.ta-onze-labmda-role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
 }
 
 resource "aws_lambda_function" "ta-onze-contributors-process-lambda" {
   function_name = "processContributorProfile"
   s3_bucket     = aws_s3_bucket.ta-onze-lambdas.bucket
   s3_key        = "processContributorProfile.js.zip"
-  role          = aws_iam_role.ta-onze-iam-role.arn
+  role          = aws_iam_role.ta-onze-labmda-role.arn
   handler       = "processContributorProfile.handler"
 
   runtime = "nodejs14.x"
