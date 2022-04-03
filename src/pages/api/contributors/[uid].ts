@@ -27,6 +27,8 @@ const postContributor = async (res: NextApiResponse, uid: string) => {
             console.log("got profile for", profile);
             await addContributor(profile);
             console.log("profile saved", uid);
+        } else{
+            console.log("already has saved", uid);
         }
 
         res.status(201).send(profile);

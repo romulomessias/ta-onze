@@ -33,7 +33,7 @@ const addContributorToQueue = (contributor: User) => {
         if (err) {
             console.log("Error", err);
         } else {
-            console.log("Success", data.MessageId);
+            console.log("Success", data.MessageId, contributor.id);
         }
     });
 };
