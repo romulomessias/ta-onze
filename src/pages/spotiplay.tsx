@@ -14,6 +14,7 @@ import { Theme } from "styles/Theme";
 import { Playlist } from "infra/models/playlist/Playlist";
 import PageLoading from "components/miscellaneous/PageLoading";
 import PlaylistItem from "components/playlists/dashboard/PlaylistItem";
+import { getUserProfile } from "services/spotify";
 
 interface SingInPageProps {
     hasPermission: boolean;
@@ -175,9 +176,14 @@ const SingInPage: NextPage<SingInPageProps> = ({ hasPermission }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookies = cookie.parse(context.req.headers.cookie || "");
 
+    let hasPermission = false;
+    if (cookies.play) {
+        const profile = await getUserProfile(cookies.play);
+        hasPermission = process.env.SPOTIFY_PLAYLIST_HOLDER_ID === profile.id;
+    }
     return {
         props: {
-            hasPermission: cookies.play !== undefined,
+            hasPermission,
         },
     };
 };

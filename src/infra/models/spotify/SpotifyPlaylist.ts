@@ -10,6 +10,7 @@ export interface PlaylistRequestParams {
     limit?: number;
     offset?: number;
     id?: string;
+    ownerId?: string;
 }
 
 export interface PlaylistsResponse {

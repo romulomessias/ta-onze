@@ -67,7 +67,7 @@ export const getSpotifyRefreshedToken = async (
 export const getCurrentPlaylist = async (
     params: PlaylistRequestParams
 ): Promise<PlaylistItem> => {
-    return getPlaylist({ ...params, id: "34iESXuSY8PzrCDS7pFkLu" });
+    return getPlaylist({ ...params, id: "4N51dovbf8UPlwwOkmWXQC" });
 };
 
 export const getPlaylist = async (
@@ -140,6 +140,30 @@ export const getContributorProfile = async (
         console.log("https://api.spotify.com/v1/users/" + uid);
         const { data } = await axios.get(
             "https://api.spotify.com/v1/users/" + uid,
+            config
+        );
+
+        return data;
+    } catch (e) {
+        console.error("cound not get user profile");
+        console.error(e);
+        throw e;
+    }
+};
+
+export const getUserProfile = async (
+    token: string
+): Promise<SpotifyProfile> => {
+    const config: AxiosRequestConfig = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    };
+
+    try {
+        const { data } = await axios.get(
+            "https://api.spotify.com/v1/me",
             config
         );
 

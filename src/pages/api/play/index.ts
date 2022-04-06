@@ -44,16 +44,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 value: token.replay!,
             });
 
-            res.setHeader(
-                "Set-Cookie",
+            res.setHeader("Set-Cookie", [
                 cookie.serialize("play", token.play, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV !== "development",
                     maxAge: token.time,
                     sameSite: "strict",
                     path: "/spotiplay",
-                })
-            );
+                }),
+                cookie.serialize("replay", token.replay!, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV !== "development",
+                    sameSite: "strict",
+                    path: "/spotiplay",
+                }),
+            ]);
+
             res.redirect(`${process.env.PUBLIC_URL}/spotiplay`);
             // res.send(token);
         }

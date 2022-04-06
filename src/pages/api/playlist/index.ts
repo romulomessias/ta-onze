@@ -36,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const currentSprint = await getCurrentSprint();
         const updatedSprint = currentSprint.value + 1;
 
-        const userId = "12144153509";
+        const userId = process.env.SPOTIFY_PLAYLIST_HOLDER_ID;
         const createPlaylistPayload = {
             name: `${playlistName} Vol. ${updatedSprint}`,
             description: `Playlist da sprint ${updatedSprint}`,
@@ -96,6 +96,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const updatedPlaylist = await getPlaylist({
             token: token.value,
             id: newPlaylist.id,
+            ownerId: userId,
         });
 
         //save on dynamodb
@@ -114,12 +115,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         //         }
         //     );
         // }
+        updateCurrentSprint(updatedSprint);
 
         await axios.get(
             `${process.env.PUBLIC_URL}/api/${updatedPlaylist.id}/contributors/process`
         );
 
-        updateCurrentSprint(updatedSprint);
+        
         res.status(201).send(updatedPlaylist);
     } catch (e) {
         res.status(500).send(e);
