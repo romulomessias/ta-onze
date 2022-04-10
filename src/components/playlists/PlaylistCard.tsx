@@ -104,7 +104,7 @@ const PlaylistCard: FC<PlaylistCardProps> = ({ playlist }) => {
     };
 
     return (
-        <section className={css(rootRules)} onClick={onCardClick}>
+        <section className={css(rootRules)} onClick={onCardClick} data-cy="playlistCard">
             <img
                 title="playlist cover"
                 src={image.url}
